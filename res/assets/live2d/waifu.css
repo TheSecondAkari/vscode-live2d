@@ -1,0 +1,41 @@
+#waifu {
+	position: fixed;
+	/* right: 0; */
+	/* bottom: 0; */
+	z-index: 3;
+}
+
+#waifu-tips {
+	color: #fff;
+	width: 280px;
+	text-align: center;
+	font-size: 13px;
+	font-weight: 400;
+	background-color: rgba(255, 137, 255, 0.2);
+	border: 1px solid rgba(255, 137, 255, 0.4);
+	border-radius: 12px;
+	box-shadow: 0 3px 15px 2px rgba(255, 137, 255, 0.4);
+	padding: 7px;
+	margin-bottom: 20px;
+	position: absolute;
+	left: 50%;
+	bottom: 100%;
+	transform: translateX(-50%);
+	opacity: 0;
+	transition: opacity 1s;
+	word-break: break-all;
+}
+
+#waifu-tips.waifu-tips-active {
+	opacity: 1;
+	transition: opacity .2s;
+}
+
+#waifu #live2d {
+	position: relative;
+	cursor: grab;
+}
+
+#waifu #live2d:active {
+	cursor: grabbing;
+}

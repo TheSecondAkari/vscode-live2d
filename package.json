@@ -1,25 +1,59 @@
 {
   "name": "vscode-live2d",
   "displayName": "A-SOUL-live2d",
-  "description": "vscode插件-live2d。 默认角色会设置为asoul的嘉然",
+  "description": "vscode插件-live2d看板娘。 默认角色会设置为asoul的嘉然",
   "version": "0.0.1",
+  "author": "TheSecondAkari",
+  "publisher": "TheSecondAkari",
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.47.0"
   },
+  "keywords": [
+		"vscode看板娘",
+		"看板娘",
+		"kanbanniang",
+		"live2d",
+		"asoul",
+		"a-soul",
+		"vtuber",
+    "国内顶级偶像"
+	],
   "categories": [
     "Other"
   ],
   "activationEvents": [
+    "onView:vscode-live2d.live2dView",
     "onCommand:vscode-live2d.helloWorld"
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "vscode-live2d.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    "views": {
+			"explorer": [
+				{
+					"type": "webview",
+					"id": "vscode-live2d.live2dView",
+					"name": "看板娘"
+				}
+			]
+		},
+    "configuration": [
+			{
+				"title": "看板娘配置",
+				"type": "Object",
+				"properties": {
+					"vscode-live2d.enabled": {
+						"type": "boolean",
+						"default": true,
+						"description": "是否启用看板娘"
+					},
+					"vscode-live2d.modelUrl": {
+						"type": "string",
+						"default": "",
+						"description": "自定义导入喜欢的模型url，错误的url会导致看板娘无法正常显示"
+					}
+				}
+			}
+		]
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
