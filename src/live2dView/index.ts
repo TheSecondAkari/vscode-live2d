@@ -6,16 +6,6 @@ export function activateLive2d(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(Live2dViewProvider.viewType, provider));
-
-	// context.subscriptions.push(
-	// 	vscode.commands.registerCommand('vscode-live2d.addColor', () => {
-	// 		provider.addColor();
-	// 	}));
-
-	// context.subscriptions.push(
-	// 	vscode.commands.registerCommand('vscode-live2d.clearColors', () => {
-	// 		provider.clearColors();
-	// 	}));
 }
 
 class Live2dViewProvider implements vscode.WebviewViewProvider {
@@ -45,15 +35,15 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-		webviewView.webview.onDidReceiveMessage(data => {
-			switch (data.type) {
-				case 'colorSelected':
-					{
-						vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
-						break;
-					}
-			}
-		});
+		// webviewView.webview.onDidReceiveMessage(data => {
+		// 	switch (data.type) {
+		// 		case 'colorSelected':
+		// 			{
+		// 				vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
+		// 				break;
+		// 			}
+		// 	}
+		// });
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
@@ -61,12 +51,10 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
-		const scriptLive2d = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'live2d-autoload.js'));
 
 		// Do the same for the stylesheet.
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
 		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
-		// const styleLive2dUri = webview.asWebviewUri('https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css');
 	
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
@@ -77,12 +65,19 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 				<meta charset="UTF-8">
 				<link href="${styleVSCodeUri}" rel="stylesheet">
 				<link href="${styleMainUri}" rel="stylesheet">
-				<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 				<title>Live 2d</title>
 			</head>
 			<body>
-				<script nonce="${nonce}" src="${scriptLive2d}"></script>
-				<script nonce="${nonce}" src="${scriptUri}"></script>
+				<button onclick="lodashLive2d()" >启动live2d</button>
+				<button onclick="closeLive2d()" > 关闭live2d</button>
+				<script>
+					function lodashLive2d() {
+						window.top.postMessage({type: 'lodash-live2d-asoul'}, "vscode-file://vscode-app");
+					}
+					function closeLive2d() {
+						window.top.postMessage({type: 'close-live2d-asoul'}, "vscode-file://vscode-app");
+					}
+				</script>
 			</body>
 			</html>`;
 	}
@@ -96,3 +91,5 @@ function getNonce() {
 	}
 	return text;
 }
+
+// <script nonce="${nonce}" src="${scriptUri}"></script>

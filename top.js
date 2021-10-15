@@ -1,8 +1,4 @@
-export default function (config: any, extName: string, version: string): string {
-	return `
-	/*ext-${extName}-start*/
-	/*ext.${extName}.ver.${version}*/
-	let live2dWrapper; // live2d 顶点div
+let live2dWrapper; // live2d 顶点div
 	// 会进行校验，最多只允许创建一个
 	function createLive2d() {
 		if(live2dWrapper)
@@ -33,7 +29,7 @@ export default function (config: any, extName: string, version: string): string 
 	// 外壳wrapper基础样式
 	function addWrapperStyle() {
 		let styleNode = document.createElement('style');
-		let styleContent = \`
+		let styleContent = `
 	div#live2d-wrapper {
 		width: 600px;
 		height: 600px;
@@ -42,7 +38,7 @@ export default function (config: any, extName: string, version: string): string 
 		right: 50px;
 		z-index: 100;
 	}
-	\`;
+	`;
 		styleNode.appendChild(document.createTextNode(styleContent))
 		document.head.appendChild(styleNode);
 	}
@@ -152,44 +148,3 @@ export default function (config: any, extName: string, version: string): string 
 				break;
 		}
 	}
-	
-	/*ext-${extName}-end*/
-	`;
-}
-
-function customizeModel(modelUrl: string, model: string) {
-	if (modelUrl) {
-		return modelUrl;
-	} else {
-		switch (model) {
-			case 'shizuku':
-				return './models/shizuku/index.json';
-			case 'shizuku-pajama':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/ShizukuTalk/shizuku-pajama/index.json';
-			case 'bilibili-22':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/bilibili-live/22/index.json';
-			case 'bilibili-33':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/bilibili-live/33/index.json';
-			case 'Pio':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Pio/index.json';
-			case 'Tia':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Tia/index.json';
-			case 'noir':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/noir_classic/index.json';
-			case 'nepnep':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepnep/index.json';
-			case 'nepmaid':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepmaid/index.json';
-			case 'nepgear':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepgear/index.json';
-			case 'vert':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/vert_swimwear/index.json';
-			case 'tororo':
-				return 'https://unpkg.com/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json';
-			case 'hijiki':
-				return 'https://unpkg.com/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json';
-			default:
-				return '';
-		}
-	}
-}

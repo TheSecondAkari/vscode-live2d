@@ -1,11 +1,23 @@
 // 背景图样式基础样式
 let backgroundCssNode;
-function addBackgroundStyle(mainImgs, siderImgs) {
-    if (backgroundCssNode)
-        backgroundCssNode.remove();
-    
-    backgroundCssNode = document.createElement('style');
 
+function addBackgroundStyle(styleContent) {
+    removeBackgroundStyle(); //先清除旧样式
+    const topDocument = window.top.document;
+    backgroundCssNode = topDocument.createElement('style');
+    backgroundCssNode.appendChild(topDocument.createTextNode(styleContent))
+    topDocument.head.appendChild(backgroundCssNode);
+}
+
+function removeBackgroundStyle() {
+    if (backgroundCssNode)
+    {
+        backgroundCssNode.remove();
+        backgroundCssNode = undefined;
+    }
+}
+
+function getBackgroundStyleText(mainImgs, siderImgs) {
     const commonStyle = `
     content: '';
     pointer-events: none;
@@ -21,12 +33,12 @@ function addBackgroundStyle(mainImgs, siderImgs) {
     opacity: 0.2;
     `;
 
-    let styleContent = `
+    const styleContent = `
 ${addMainImagesCss(mainImgs, commonStyle)}
 ${addSidebarImagesCss(siderImgs, commonStyle)}
 `;
-    backgroundCssNode.appendChild(document.createTextNode(styleContent))
-    document.head.appendChild(backgroundCssNode);
+
+    return styleContent;
 }
 
 function addMainImagesCss(images, commonStyle, loop) {
@@ -100,7 +112,23 @@ const addSidebarImagesCss = function (images, commonStyle, loop) {
 };
 
 function getAsoulImgs(callback) {
-    fetch('https://api.asoul.cloud:8000/getPic?page=4&tag_id=0&sort=1&part=0&rank=3&type=1', {
+
+    const baseList = [1, 2, 3, 4, 5];
+
+    const getRandom = (arr) => arr[Math.floor((Math.random() * arr.length))];
+
+    const getRandomArray = (arr, num) => {
+        let sData = arr.slice(0), i = arr.length, min = i - num, item, index;
+        while (i-- > min) {
+            index = Math.floor((i + 1) * Math.random());
+            item = sData[index];
+            sData[index] = sData[i];
+            sData[i] = item;
+        }
+        return sData.slice(min);
+    }
+
+    fetch(`https://api.asoul.cloud:8000/getPic?page=${getRandom(baseList)}&tag_id=0&sort=1&part=0&rank=3&type=1`, {
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, same-origin, *omit
         headers: {
@@ -112,17 +140,21 @@ function getAsoulImgs(callback) {
         redirect: "follow", // manual, *follow, error
         referrer: "no-referrer" // *client, no-referrer
     })
-        .then(response => response.json()) // parses response to JSON
+        .then(response => response.json())
         .then(function (myJson) {
-
             if (Array.isArray(myJson) && myJson.length > 0) {
-                const imgs = myJson.map(item => item.pic_url[0].img_src);
-                console.log(imgs);
-                callback && callback(imgs);
+                const imgs = myJson.map(item => getRandom(item.pic_url).img_src);
+                callback && callback(getRandomArray(imgs, 10));
             }
         });
 }
 
-getAsoulImgs((imgs) => {
-    addBackgroundStyle(imgs.slice(0,5),imgs.slice(5,10));
+const changeBackground = () => getAsoulImgs((imgs) => {
+    const css = getBackgroundStyleText(imgs.slice(0, 5), imgs.slice(5, 10));
+    addBackgroundStyle(css);
 })
+
+const removeBackground = () => {
+    removeBackgroundStyle();
+}
+

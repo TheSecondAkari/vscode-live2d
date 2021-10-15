@@ -8,10 +8,8 @@ import {activateModify} from './live2dModify'
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 	
-	console.log('asd123')
-
 	// 注册live2d webView
-	// activateLive2d(context);
+	activateLive2d(context);
 	
 	// 注册修改文件操作
 	activateModify(context);

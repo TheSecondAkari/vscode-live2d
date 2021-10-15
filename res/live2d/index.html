@@ -8,6 +8,9 @@
 </head>
 
 <body style="width: 100%; height: 100%;margin: 0;">
+
+	<button onclick="changeBackground()" >改变背景图</button>
+
 	<!-- Load TweenLite -->
 	<script src="https://cdn.jsdelivr.net/npm/greensock@1.20.2/dist/TweenLite.js"></script>
 
@@ -20,33 +23,7 @@
 	<script src="./lib/pio_sdk4.js"></script>
 	<script src="./lib/load.js"></script>
 
-	<script>
-		// 更换背景图
-		function getAsoulImgs(callback) {
-			fetch('https://api.asoul.cloud:8000/getPic?page=4&tag_id=0&sort=1&part=0&rank=3&type=1', {
-				cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-				credentials: "same-origin", // include, same-origin, *omit
-				headers: {
-					"user-agent": "Mozilla/4.0 MDN Example",
-					"content-type": "application/json"
-				},
-				method: "GET", // *GET, POST, PUT, DELETE, etc.
-				mode: "cors", // no-cors, cors, *same-origin
-				redirect: "follow", // manual, *follow, error
-				referrer: "no-referrer" // *client, no-referrer
-			})
-				.then(response => response.json()) // parses response to JSON
-				.then(function (myJson) {
-
-					if (Array.isArray(myJson) && myJson.length > 0) {
-						const imgs = myJson.map(item => item.owner_pic);
-						console.log(imgs);
-						callback(imgs);
-					}
-				});
-		}
-
-	</script>
+	<script src="./background.js"></script>
 	
 	<!-- <script>
 		// const cubism2Model = "./models/Ava/Ava.model3.json";
