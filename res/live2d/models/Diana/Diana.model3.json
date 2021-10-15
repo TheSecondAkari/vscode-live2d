@@ -1,0 +1,212 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Diana.moc3",
+		"Textures": [
+			"Diana.4096/texture_00.png"
+		],
+		"Physics": "Diana.physics3.json",
+		"PhysicsV2": {
+			"File": "Diana.physics3.json"
+		},
+		"Motions": {
+			"Idle": [{
+				"File": "motions/Diana_idle.motion3.json"
+			}],
+			"Tap生气 -领结": [{
+				"File": "motions/Diana_tap01.motion3.json",
+				"Text": "嘉心糖屁用没有",
+				"TextDelay": 2000,
+				"TextDuration": 3000
+			}],
+			"Tap= =  左蝴蝶结": [{
+				"File": "motions/Diana_tap02.motion3.json",
+				"Text": "有人急了，但我不说是谁~",
+				"TextDelay": 1000,
+				"TextDuration": 4000
+			}],
+			"Tap笑- 脸": [{
+				"File": "motions/Diana_tap03.motion3.json",
+				"Text": "hi！嘉心糖",
+				"TextDelay": 2200,
+				"TextDuration": 2300
+			}],
+			"Tap哭 -眼角": [{
+				"File": "motions/Diana_tap04.motion3.json",
+				"Text": "呜呜...呜呜呜....",
+				"TextDelay": 3200,
+				"TextDuration": 4000
+			}],
+			"Shake": [{
+				"File": "motions/Diana_tap05.motion3.json",
+				"Text": "别摇啦！",
+				"TextDelay": 1000,
+				"TextDuration": 2000
+			}],
+			"Tap害羞-中间刘海": [{
+				"File": "motions/Diana_tap06.motion3.json",
+				"Text": "想然然了没有呀~",
+				"TextDelay": 1500,
+				"TextDuration": 3000
+			}],
+			"Tap抱阿草-左手": [{
+				"File": "motions/Diana_tap07.motion3.json",
+				"Text": "阿草好软呀~",
+				"TextDelay": 3000,
+				"TextDuration": 2500
+			}],
+			"Tap摇头- 身体": [{
+				"File": "motions/Diana_tap05.motion3.json",
+				"Text": "不要再戳啦！好痒！",
+				"TextDelay": 800,
+				"TextDuration": 2500
+			}],
+			"Tap耳朵-发卡": [{
+				"File": "motions/Diana_tap08.motion3.json",
+				"Text": "嗷呜~~~",
+				"TextDelay": 1500,
+				"TextDuration": 3000
+			}],
+			"Tap打瞌睡- 呆毛": [{
+				"File": "motions/Diana_tap09.motion3.json",
+				"Text": "啊",
+				"TextDelay": 7500,
+				"TextDuration": 800
+			}],
+			"Leave": [{
+				"File": "motions/Diana_tap09.motion3.json",
+				"Text": "zzZ。。。",
+				"TextDelay": 4000,
+				"TextDuration": 4000
+			}],
+			"Tap左头发": [{
+				"File": "motions/Diana_tap10.motion3.json"
+			}],
+			"Tap右头发": [{
+				"File": "motions/Diana_tap11.motion3.json",
+				"Text": "哇！好吃的！",
+				"TextDelay": 500,
+				"TextDuration": 3000
+			}]
+		}
+	},
+	"Controllers": {
+		"ParamHit": {},
+		"ParamLoop": {},
+		"KeyTrigger": {},
+		"EyeBlink": {
+			"MinInterval": 500,
+			"MaxInterval": 6000,
+			"Enabled": true
+		},
+		"LipSync": {
+			"Gain": 5.0
+		},
+		"MouseTracking": {
+			"SmoothTime": 0.15,
+			"Items": [{
+				"Id": "ParamBodyAngleX",
+				"Min": -10.0,
+				"Max": 10.0,
+				"DefaultValue": 0.0,
+				"Weight": 0.76343286,
+				"BlendMode": 1,
+				"Input": 1
+			}, {
+				"Id": "ParamAngleX",
+				"Min": -30.0,
+				"Max": 30.0,
+				"DefaultValue": 0.0,
+				"Weight": 0.798328757,
+				"BlendMode": 1,
+				"Input": 1
+			}, {
+				"Id": "ParamBodyAngleZ",
+				"Min": -10.0,
+				"Max": 10.0,
+				"DefaultValue": 0.0,
+				"Weight": 0.6260679,
+				"BlendMode": 1,
+				"Input": 1
+			}, {
+				"Id": "ParamBodyAngleY",
+				"Min": -10.0,
+				"Max": 10.0,
+				"DefaultValue": 0.0,
+				"Weight": 0.8907613,
+				"BlendMode": 1,
+				"Axis": 1,
+				"Input": 2
+			}, {
+				"Id": "ParamAngleY",
+				"Min": -30.0,
+				"Max": 30.0,
+				"DefaultValue": 0.0,
+				"Weight": 0.7521123,
+				"BlendMode": 1,
+				"Axis": 1,
+				"Input": 2
+			}],
+			"Enabled": true
+		},
+		"AutoBreath": {
+			"Enabled": true
+		},
+		"ExtraMotion": {
+			"Enabled": true
+		},
+		"Accelerometer": {
+			"Enabled": true
+		},
+		"Microphone": {},
+		"Transform": {},
+		"FaceTracking": {
+			"Enabled": true
+		},
+		"ParamValue": {},
+		"PartOpacity": {},
+		"ArtmeshOpacity": {},
+		"ArtmeshColor": {},
+		"ArtmeshCulling": {
+			"DefaultMode": 0
+		},
+		"IntimacySystem": {}
+	},
+	"HitAreas": [{
+		"Name": "= =  左蝴蝶结",
+		"Id": "ArtMesh15"
+	}, {
+		"Name": "笑- 脸",
+		"Id": "ArtMesh51"
+	}, {
+		"Name": "哭 -眼角",
+		"Id": "ArtMesh48"
+	}, {
+		"Name": "生气 -领结",
+		"Id": "ArtMesh56"
+	}, {
+		"Name": "害羞-中间刘海",
+		"Id": "ArtMesh10"
+	}, {
+		"Name": "抱阿草-左手",
+		"Id": "L4"
+	}, {
+		"Name": "打瞌睡- 呆毛",
+		"Id": "ArtMesh9"
+	}, {
+		"Name": "耳朵-发卡",
+		"Id": "L3"
+	}, {
+		"Name": "摇头- 身体",
+		"Id": "jiaran"
+	}, {
+		"Name": "左头发",
+		"Id": "L5"
+	}, {
+		"Name": "右头发",
+		"Id": "R5"
+	}],
+	"Options": {
+		"TexFixed": true
+	}
+}

@@ -1,0 +1,16 @@
+{
+  "type": "STM_1_0",
+  "name": "向晚BY木果",
+  "id": "1620044467713",
+  "encrypt": "true",
+  "version": "1.0",
+  "list": [{
+    "id": "",
+    "character": "character",
+    "avatar": "4a301072dec6b6a49050e5b294cd7983",
+    "costume": [{
+      "name": "costume",
+      "path": "f01cf984f3e6783ccc8e88e0c8aff5cc.bin3"
+    }]
+  }]
+}

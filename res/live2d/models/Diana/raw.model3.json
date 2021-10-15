@@ -1,0 +1,210 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "8c4420bd232902f08f41b59bbc36462f.bin3",
+    "Textures": ["4df2dbd71a468fc2f91b62afcb63f994.bin3"],
+    "Physics": "2b5fa038da3354fd73a58456408f27e9.bin3",
+    "PhysicsV2": {
+      "File": "2b5fa038da3354fd73a58456408f27e9.bin3"
+    },
+    "Motions": {
+      "Idle": [{
+        "File": "8251a6de2a03ea12eaf8c1f879d759b9.bin3"
+      }],
+      "Tap生气 -领结": [{
+        "File": "18624d01175dda6605c3eafa341bac02.bin3",
+        "Text": "嘉心糖屁用没有",
+        "TextDelay": 2000,
+        "TextDuration": 3000
+      }],
+      "Tap= =  左蝴蝶结": [{
+        "File": "be67f42e9c965290406d52b64fb878bd.bin3",
+        "Text": "有人急了，但我不说是谁~",
+        "TextDelay": 1000,
+        "TextDuration": 4000
+      }],
+      "Tap笑- 脸": [{
+        "File": "d1cf83c4f56a2d02a8f0a3ae2f46028f.bin3",
+        "Text": "hi！嘉心糖",
+        "TextDelay": 2200,
+        "TextDuration": 2300
+      }],
+      "Tap哭 -眼角": [{
+        "File": "721720d60a83a9f4b7f2b1065b49d6c8.bin3",
+        "Text": "呜呜...呜呜呜....",
+        "TextDelay": 3200,
+        "TextDuration": 4000
+      }],
+      "Shake": [{
+        "File": "a475c108ed9162233c132446a237c700.bin3",
+        "Text": "别摇啦！",
+        "TextDelay": 1000,
+        "TextDuration": 2000
+      }],
+      "Tap害羞-中间刘海": [{
+        "File": "f6123a070d9897ef1e6475e740b13e08.bin3",
+        "Text": "想然然了没有呀~",
+        "TextDelay": 1500,
+        "TextDuration": 3000
+      }],
+      "Tap抱阿草-左手": [{
+        "File": "e31f07da7854f78c21a271ada7416412.bin3",
+        "Text": "阿草好软呀~",
+        "TextDelay": 3000,
+        "TextDuration": 2500
+      }],
+      "Tap摇头- 身体": [{
+        "File": "a475c108ed9162233c132446a237c700.bin3",
+        "Text": "不要再戳啦！好痒！",
+        "TextDelay": 800,
+        "TextDuration": 2500
+      }],
+      "Tap耳朵-发卡": [{
+        "File": "fa1918fc04af73a1a08aaac6e2556fbb.bin3",
+        "Text": "嗷呜~~~",
+        "TextDelay": 1500,
+        "TextDuration": 3000
+      }],
+      "Tap打瞌睡- 呆毛": [{
+        "File": "d9be6b6f1b3bc23ef6539025acedd923.bin3",
+        "Text": "啊",
+        "TextDelay": 7500,
+        "TextDuration": 800
+      }],
+      "Leave": [{
+        "File": "d9be6b6f1b3bc23ef6539025acedd923.bin3",
+        "Text": "zzZ。。。",
+        "TextDelay": 4000,
+        "TextDuration": 4000
+      }],
+      "Tap左头发": [{
+        "File": "ec36cfef1f589764902d770d0cca2e9e.bin3"
+      }],
+      "Tap右头发": [{
+        "File": "0aeecad899bb18f93a519617dfe76f26.bin3",
+        "Text": "哇！好吃的！",
+        "TextDelay": 500,
+        "TextDuration": 3000
+      }]
+    }
+  },
+  "Controllers": {
+    "ParamHit": {},
+    "ParamLoop": {},
+    "KeyTrigger": {},
+    "EyeBlink": {
+      "MinInterval": 500,
+      "MaxInterval": 6000,
+      "Enabled": true
+    },
+    "LipSync": {
+      "Gain": 5.0
+    },
+    "MouseTracking": {
+      "SmoothTime": 0.15,
+      "Items": [{
+        "Id": "ParamBodyAngleX",
+        "Min": -10.0,
+        "Max": 10.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.76343286,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamAngleX",
+        "Min": -30.0,
+        "Max": 30.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.798328757,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamBodyAngleZ",
+        "Min": -10.0,
+        "Max": 10.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.6260679,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamBodyAngleY",
+        "Min": -10.0,
+        "Max": 10.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.8907613,
+        "BlendMode": 1,
+        "Axis": 1,
+        "Input": 2
+      }, {
+        "Id": "ParamAngleY",
+        "Min": -30.0,
+        "Max": 30.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.7521123,
+        "BlendMode": 1,
+        "Axis": 1,
+        "Input": 2
+      }],
+      "Enabled": true
+    },
+    "AutoBreath": {
+      "Enabled": true
+    },
+    "ExtraMotion": {
+      "Enabled": true
+    },
+    "Accelerometer": {
+      "Enabled": true
+    },
+    "Microphone": {},
+    "Transform": {},
+    "FaceTracking": {
+      "Enabled": true
+    },
+    "ParamValue": {},
+    "PartOpacity": {},
+    "ArtmeshOpacity": {},
+    "ArtmeshColor": {},
+    "ArtmeshCulling": {
+      "DefaultMode": 0
+    },
+    "IntimacySystem": {}
+  },
+  "HitAreas": [{
+    "Name": "= =  左蝴蝶结",
+    "Id": "ArtMesh15"
+  }, {
+    "Name": "笑- 脸",
+    "Id": "ArtMesh51"
+  }, {
+    "Name": "哭 -眼角",
+    "Id": "ArtMesh48"
+  }, {
+    "Name": "生气 -领结",
+    "Id": "ArtMesh56"
+  }, {
+    "Name": "害羞-中间刘海",
+    "Id": "ArtMesh10"
+  }, {
+    "Name": "抱阿草-左手",
+    "Id": "L4"
+  }, {
+    "Name": "打瞌睡- 呆毛",
+    "Id": "ArtMesh9"
+  }, {
+    "Name": "耳朵-发卡",
+    "Id": "L3"
+  }, {
+    "Name": "摇头- 身体",
+    "Id": "jiaran"
+  }, {
+    "Name": "左头发",
+    "Id": "L5"
+  }, {
+    "Name": "右头发",
+    "Id": "R5"
+  }],
+  "Options": {
+    "TexFixed": true
+  }
+}

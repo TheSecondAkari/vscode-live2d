@@ -33,11 +33,12 @@ export class Dom {
         this.config = vscode.workspace.getConfiguration(this.configName);
         let firstload = this.checkFirstload();  // 是否初次加载插件
         let fileType = this.getFileType(); // 文件目前状态
-
+        console.log('dsa')
         // 如果是第一次加载插件，或者旧版本
-        if (firstload || fileType === FileType.isOld || fileType === FileType.empty) {
+        if (!firstload || fileType === FileType.isOld || fileType === FileType.empty) {
             const base = path.dirname(require.main.filename);
-            copy(path.join(__dirname, '../../res/live2d/'), path.join(base, 'vs', 'code', 'electron-browser', 'workbench'));
+            console.log('asd',base)
+            copy(path.join(__dirname, '../../res/'), path.join(base, 'vs', 'code', 'electron-browser', 'workbench'));
             this.install(true);
         }
     }

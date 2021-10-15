@@ -56,19 +56,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 		});
 	}
 
-	public addColor() {
-		if (this._view) {
-			this._view.show?.(true); // `show` is not implemented in 1.49 but is for 1.50 insiders
-			this._view.webview.postMessage({ type: 'addColor' });
-		}
-	}
-
-	public clearColors() {
-		if (this._view) {
-			this._view.webview.postMessage({ type: 'clearColors' });
-		}
-	}
-
 	private _getHtmlForWebview(webview: vscode.Webview) {
 		
 
@@ -109,56 +96,3 @@ function getNonce() {
 	}
 	return text;
 }
-// 
-
-// 窗口样式
-// div#webview-webviewview-calicocolors-colorsview {
-//     border: solid 5px white;
-//     width: 320px !important;
-//     height: 320px !important;
-//     position: fixed !important;
-//     top: 0 !important;
-//     left: 0 !important;
-//     clip: unset !important;
-// }
-
-// let styleNode = document.createElement('style');
-// let styleContent = `
-// div#webview-webviewview-calicocolors-colorsview {
-//     border: solid 5px white;
-//     width: 320px !important;
-//     height: 320px !important;
-//     position: fixed !important;
-//     top: 0 !important;
-//     left: 0 !important;
-//     clip: unset !important;
-// }
-// `;  
-// styleNode.type='text/css';  
-// styleNode.appendChild(document.createTextNode(styleContent))
-// document.head.appendChild(styleNode);
-
-
-// function addDragEvent(id) {
-// 	let drag = document.getElementById(id);//获取操作元素
-//  let timer = false;
-// 	if(drag) {
-// 		drag.onmousedown = function (e) {//鼠标按下触发
-// 			var disx = e.pageX - drag.offsetLeft;//获取鼠标相对元素距离
-// 			var disy = e.pageY - drag.offsetTop;
-// 			document.onmousemove = function (e) {//鼠标移动触发事件，元素移到对应为位置
-// 				if(!timer) {
-// 					timer = true;
-// 					drag.style.cssText = `left: ${e.pageX - disx + 'px !important'}; top: ${e.pageY - disy + 'px !important'}`;
-// 					setTimeout(()=>{ timer = false; }, 5);
-// 				}
-// 			}
-// 			document.onmouseup = function(){//鼠标抬起，清除绑定的事件，元素放置在对应的位置
-// 				document.onmousemove = null;
-// 				document.onmousedown = null;
-// 			};
-// 			e.preventDefault();//阻止浏览器的默认事件
-// 		};
-// 	}
-// }
-// addDragEvent('webview-webviewview-calicocolors-colorsview')

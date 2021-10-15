@@ -1,0 +1,321 @@
+{
+  "Version": 3,
+  "Bounds": {
+    "Width": 9.772043,
+    "Height": 11.08606,
+    "CenterX": 0.1069689,
+    "CenterY": -1.404058
+  },
+  "FileReferences": {
+    "Moc": "d5586be2b6f3c2d44034440a93f66115.bin3",
+    "Textures": ["b0078e0cbfe20363c423f01873780c94.bin3"],
+    "Physics": "09c3193669d8c580df3cea6922677818.bin3",
+    "PhysicsV2": {
+      "File": "09c3193669d8c580df3cea6922677818.bin3"
+    },
+    "Motions": {
+      "Idle": [{
+        "Name": "待机",
+        "File": "930ccd3afc12a516e72bb864916c1e16.bin3"
+      }],
+      "Shake": [{
+        "Name": "晕",
+        "File": "45d49cbd99e34340f4e2a08e3aec9646.bin3",
+        "Text": "啊呜...",
+        "TextDuration": 2000
+      }, {
+        "File": "b77bfecb6a5dee8382906a34f3917255.bin3"
+      }],
+      "Tap左手": [{
+        "Name": "吉他",
+        "File": "4c70766cf8b2070eaa3f7b384cc266b9.bin3",
+        "Text": "可爱的鸽子鸽子~我喜欢你~",
+        "TextDelay": 1200,
+        "TextDuration": 5600
+      }],
+      "Tap右手": [{
+        "Name": "游戏",
+        "File": "0f54599feff96877de0dbfb649caad58.bin3",
+        "Text": "来陪我玩游戏！",
+        "TextDelay": 600,
+        "TextDuration": 2500
+      }],
+      "Tap腰": [{
+        "Name": "傲娇",
+        "File": "e2f024f08042e3ab1d03377bd19a0419.bin3",
+        "Text": "哼，才不是傲娇大小姐",
+        "TextDelay": 500,
+        "TextDuration": 3000
+      }],
+      "Tap中间刘海": [{
+        "Name": "害羞",
+        "File": "e7e47270b0c9f7f1d6448b944392e0a0.bin3",
+        "Text": "好...好兄弟之间喜欢很正常啦",
+        "TextDelay": 1500,
+        "TextDuration": 3000
+      }, {
+        "Name": "害羞2",
+        "File": "e7e47270b0c9f7f1d6448b944392e0a0.bin3",
+        "Text": "也...也不是不可以",
+        "TextDelay": 2000,
+        "TextDuration": 3000
+      }],
+      "Tap嘴": [{
+        "Name": "傲娇",
+        "File": "e2f024f08042e3ab1d03377bd19a0419.bin3",
+        "Text": "什么傲娇啦，我才没有",
+        "TextDelay": 500,
+        "TextDuration": 2200
+      }],
+      "Tap胸口项链": [{
+        "Name": "笑",
+        "File": "5afa7a7ca7dc29f17325dcb8af964a35.bin3"
+      }],
+      "Tap脖子": [{
+        "Name": "监督",
+        "File": "7e263ff839def59c49d337048df5ce84.bin3",
+        "Text": "嗯？老戳我干嘛，快去干正事啦 ",
+        "TextDelay": 550,
+        "TextDuration": 4000
+      }],
+      "Tap 右边头饰小花": [{
+        "Name": "懒羊羊",
+        "File": "0db0bd8ff7847014772caad0ae790ebf.bin3",
+        "Text": "顶晚人...顶晚人在哪里...",
+        "TextDelay": 800,
+        "TextDuration": 6000
+      }],
+      "Tap右头饰": [{
+        "Name": "猫",
+        "File": "19c910845c10e04474236a7cb8f482c8.bin3",
+        "Text": "neko panch！",
+        "TextDelay": 500,
+        "TextDuration": 2000
+      }],
+      "Tap右眼": [{
+        "Name": "惊讶",
+        "File": "d18b62e12feb89b0a7f603b0eb9efd30.bin3",
+        "Text": "啊",
+        "TextDelay": 200,
+        "TextDuration": 1000
+      }],
+      "Tap左眼": [{
+        "Name": "墨镜",
+        "File": "23e132e412ad2cb5d1ecbcc8f256b3b0.bin3",
+        "Text": "嗯哼~我超帅的",
+        "TextDelay": 700,
+        "TextDuration": 2000
+      }],
+      "Tap右马尾   ": [{
+        "Name": "水母",
+        "File": "583ba01a373b1abf564bf4963e3ab433.bin3"
+      }],
+      "Tap左马尾": [{
+        "Name": "><",
+        "File": "b77bfecb6a5dee8382906a34f3917255.bin3",
+        "Text": "头发摸乱了啦~",
+        "TextDelay": 500,
+        "TextDuration": 2000
+      }],
+      "Tap右手臂": [{
+        "File": "7e263ff839def59c49d337048df5ce84.bin3",
+        "Text": "嗯？老戳我干嘛，快去干正事啦 ",
+        "TextDelay": 550,
+        "TextDuration": 4000
+      }],
+      "Tap左中马尾": [{
+        "File": "583ba01a373b1abf564bf4963e3ab433.bin3"
+      }]
+    }
+  },
+  "Controllers": {
+    "ParamHit": {},
+    "ParamLoop": {},
+    "KeyTrigger": {},
+    "EyeBlink": {
+      "MinInterval": 500,
+      "MaxInterval": 6000,
+      "Items": [{
+        "Id": "ParamEyeLOpen",
+        "Min": 0.0,
+        "Max": 1.0,
+        "BlendMode": 2,
+        "Input": 0
+      }, {
+        "Id": "ParamEyeROpen",
+        "Min": 0.0,
+        "Max": 1.0,
+        "BlendMode": 2,
+        "Input": 0
+      }, {
+        "Id": "Param7",
+        "Min": 0.0,
+        "Max": 1.0,
+        "BlendMode": 2,
+        "Input": 0
+      }, {
+        "Id": "Param8",
+        "Min": 0.0,
+        "Max": 1.0,
+        "BlendMode": 2,
+        "Input": 0
+      }],
+      "Enabled": true
+    },
+    "LipSync": {
+      "Gain": 5.0
+    },
+    "MouseTracking": {
+      "SmoothTime": 0.15,
+      "Items": [{
+        "Id": "ParamAngleX",
+        "Min": -30.0,
+        "Max": 30.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.359834284,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamAngleY",
+        "Min": -30.0,
+        "Max": 30.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.3398514,
+        "BlendMode": 1,
+        "Axis": 1,
+        "Input": 2
+      }, {
+        "Id": "ParamAngleZ",
+        "Min": -15.0,
+        "Max": 15.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.199971348,
+        "BlendMode": 1,
+        "Axis": 2,
+        "Input": 1
+      }, {
+        "Id": "ParamBodyAngleX",
+        "Min": -10.0,
+        "Max": 10.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.376962453,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamBodyAngleZ",
+        "Min": -10.0,
+        "Max": 10.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.365543664,
+        "BlendMode": 1,
+        "Axis": 2,
+        "Input": 1
+      }, {
+        "Id": "Param46",
+        "Min": -30.0,
+        "Max": 30.0,
+        "DefaultValue": 0.0,
+        "Weight": 0.411218822,
+        "BlendMode": 1,
+        "Axis": 1,
+        "Input": 2
+      }, {
+        "Id": "ParamEyeBallX",
+        "Min": -1.0,
+        "Max": 1.0,
+        "DefaultValue": 0.0,
+        "BlendMode": 1,
+        "Input": 1
+      }, {
+        "Id": "ParamEyeBallY",
+        "Min": -1.0,
+        "Max": 1.0,
+        "DefaultValue": 0.0,
+        "BlendMode": 1,
+        "Axis": 1,
+        "Input": 2
+      }],
+      "Enabled": true
+    },
+    "AutoBreath": {
+      "Enabled": true
+    },
+    "ExtraMotion": {
+      "Enabled": true
+    },
+    "Accelerometer": {
+      "Enabled": true
+    },
+    "Microphone": {},
+    "Transform": {},
+    "FaceTracking": {
+      "Enabled": true
+    },
+    "ParamValue": {},
+    "PartOpacity": {
+      "Items": [{
+        "Name": "猫耳",
+        "Ids": ["Part23", "weiba_Skinning"]
+      }, {
+        "Name": "墨镜",
+        "Ids": ["Part26"]
+      }],
+      "Enabled": true
+    },
+    "ArtmeshOpacity": {},
+    "ArtmeshColor": {},
+    "ArtmeshCulling": {
+      "DefaultMode": 0
+    },
+    "IntimacySystem": {}
+  },
+  "HitAreas": [{
+    "Name": "左手",
+    "Id": "ArtMesh2"
+  }, {
+    "Name": "右手",
+    "Id": "ArtMesh87"
+  }, {
+    "Name": "腰",
+    "Id": "yao"
+  }, {
+    "Name": "中间刘海",
+    "Id": "ArtMesh26"
+  }, {
+    "Name": "嘴",
+    "Id": "ArtMesh35"
+  }, {
+    "Name": "胸口项链",
+    "Id": "ArtMesh45"
+  }, {
+    "Name": "脖子",
+    "Id": "ArtMesh52"
+  }, {
+    "Name": " 右边头饰小花",
+    "Id": "hua2"
+  }, {
+    "Name": "右头饰",
+    "Id": "ArtMesh19"
+  }, {
+    "Name": "右眼",
+    "Id": "qiu"
+  }, {
+    "Name": "左眼",
+    "Id": "ArtMesh42"
+  }, {
+    "Name": "右马尾   ",
+    "Id": "R8"
+  }, {
+    "Name": "左马尾",
+    "Id": "L4"
+  }, {
+    "Name": "右手臂",
+    "Id": "ArtMesh48"
+  }, {
+    "Name": "左中马尾",
+    "Id": "L6"
+  }],
+  "Options": {
+    "TexFixed": true
+  }
+}

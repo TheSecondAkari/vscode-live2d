@@ -1,0 +1,16 @@
+{
+  "type": "STM_1_0",
+  "name": "嘉然BY木果",
+  "id": "1618880670036",
+  "encrypt": "true",
+  "version": "1.0",
+  "list": [{
+    "id": "",
+    "character": "character",
+    "avatar": "4a301072dec6b6a49050e5b294cd7983",
+    "costume": [{
+      "name": "costume",
+      "path": "39561a673b6fe68918affd77d3ad8ae2.bin3"
+    }]
+  }]
+}
