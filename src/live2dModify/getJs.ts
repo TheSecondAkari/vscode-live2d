@@ -35,8 +35,8 @@ export default function (config: any, extName: string, version: string): string 
 		let styleNode = document.createElement('style');
 		let styleContent = \`
 	div#live2d-wrapper {
-		width: 600px;
-		height: 600px;
+		width: 280px;
+		height: 300px;
 		position: fixed;
 		bottom: 50px;
 		right: 50px;
@@ -84,8 +84,10 @@ export default function (config: any, extName: string, version: string): string 
 	function controlEles(container) {
 		const controlEles = document.createElement('div');
 		controlEles.style.cssText = 'pointer-events:auto;position: absolute;right: 1px;top: 2px; display:flex;';
+		const borderIconDiv = document.createElement('div');
+		borderIconDiv.title = '添加/移除边框';
 		const borderIcon = document.createElement('img');
-		borderIcon.src = 'https://t7.baidu.com/it/u=963301259,1982396977&fm=193&f=GIF';
+		borderIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/c87f9f3d038d2598.png';
 		borderIcon.style.cssText = 'width:16px;height:16px;cursor: pointer;';
 		borderIcon.addEventListener('click',(()=>{
 			let hasBorder = false;
@@ -94,10 +96,14 @@ export default function (config: any, extName: string, version: string): string 
 				container.style.border = hasBorder ? 'solid 4px white' : '0';
 			}
 		})());
-		controlEles.appendChild(borderIcon);
+		borderIconDiv.appendChild(borderIcon);
+		controlEles.appendChild(borderIconDiv);
 	
+		const penetrateIconDiv = document.createElement('div');
+		penetrateIconDiv.title = '是否允许点击穿透';
+		penetrateIconDiv.style.cssText = 'margin: 0 6px;';
 		const penetrateIcon = document.createElement('img');
-		penetrateIcon.src = 'https://t7.baidu.com/it/u=2077212613,1695106851&fm=193&f=GIF';
+		penetrateIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/aa5c35f26d1541b8.png';
 		penetrateIcon.style.cssText = 'width:16px;height:16px;cursor:pointer;';
 		penetrateIcon.addEventListener('click',(()=>{
 			let isPenetrate = false;
@@ -106,29 +112,33 @@ export default function (config: any, extName: string, version: string): string 
 				container.style.pointerEvents = isPenetrate ? 'none' : 'auto';
 			}
 		})());
-		controlEles.appendChild(penetrateIcon);
+		penetrateIconDiv.appendChild(penetrateIcon);
+		controlEles.appendChild(penetrateIconDiv);
 
+		const dragIconDiv = document.createElement('div');
+		dragIconDiv.title = '鼠标按住拖拽移动';
 		const dragIcon = document.createElement('img');
-		dragIcon.src = 'https://t7.baidu.com/it/u=2077212613,1695106851&fm=193&f=GIF';
+		dragIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/9e34525e8e70acd8.png';
 		dragIcon.style.cssText = 'width:16px;height:16px;cursor:pointer;';
-		let timer = false;
-		dragIcon.onmousedown = function (e) {//鼠标按下触发
-			var disx = e.pageX - container.offsetLeft;//获取鼠标相对元素距离
-			var disy = e.pageY - container.offsetTop;
-			document.onmousemove = function (e) {//鼠标移动触发事件，元素移到对应为位置
-				if (!timer) {
-					timer = true;
-					container.style.left = e.pageX - disx + 'px';
-					container.style.top = e.pageY - disy + 'px';
-					setTimeout(() => { timer = false; }, 5);
-				}
+		document.addEventListener("mousedown", e => {
+			// 这里过滤掉非目标元素
+			if (e.target !== dragIcon) {
+				return;
 			}
-			document.onmouseup = function () {//鼠标抬起，清除绑定的事件，元素放置在对应的位置
-				document.onmousemove = undefined;
+			const disx = e.pageX - container.offsetLeft;//获取鼠标相对元素距离
+			const disy = e.pageY - container.offsetTop;
+			const handleMove = (event) => {
+				container.style.left = event.pageX - disx + 'px';
+				container.style.top = event.pageY - disy + 'px';
 			};
+			document.addEventListener("mousemove", handleMove);
+			document.addEventListener("mouseup", () => {
+				document.removeEventListener("mousemove", handleMove);
+			});
 			e.preventDefault();//阻止浏览器的默认事件
-		};
-		controlEles.appendChild(dragIcon);
+		});
+		dragIconDiv.appendChild(dragIcon);
+		controlEles.appendChild(dragIconDiv);
 	
 		return controlEles;
 	}
@@ -140,7 +150,6 @@ export default function (config: any, extName: string, version: string): string 
 		if (origin !== "vscode-webview://webviewview-vscode-live2d-live2dview")
 			return;
 		const {type, data} = event.data;
-		console.log(event.data , type)
 		switch(type) {
 			case 'lodash-live2d-asoul':
 				createLive2d();

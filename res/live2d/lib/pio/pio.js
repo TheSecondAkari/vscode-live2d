@@ -131,7 +131,7 @@ var Paul_Pio = function (prop) {
                 modules.render(text);
             }
             else {
-                modules.render(prop.content.welcome || "欢迎来到本站！");
+                modules.render(prop.content.welcome || "欢迎使用本插件，记得去B站关注a-soul！");
             }
         },
         // 触摸
@@ -144,7 +144,8 @@ var Paul_Pio = function (prop) {
         buttons: function () {
             // 返回首页
             elements.home.onclick = function () {
-                location.href = current.root;
+                // location.href = current.root;
+                changeBackground && changeBackground();
             };
             elements.home.onmouseover = function () {
                 modules.render(prop.content.home || "点击这里回到首页！");
@@ -165,7 +166,16 @@ var Paul_Pio = function (prop) {
 
             // 关于我
             elements.info.onclick = function () {
-                window.open(prop.content.link || "https://paugram.com/coding/add-poster-girl-with-plugin.html");
+                const link = prop.content.link;
+                if (link) {
+                    if (Array.isArray(link))
+                        window.open(modules.rand(link))
+                    else if (typeof link === 'string')
+                        window.open(link);
+                }
+                else {
+                    window.open("https://paugram.com/coding/add-poster-girl-with-plugin.html");
+                }
             };
             elements.info.onmouseover = function () {
                 modules.render("想了解更多关于我的信息吗？");

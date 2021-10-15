@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="width: 100%; height: 100%;">
 
-<head style="width: 100%; height: 100%;">
+<head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link href="./lib/pio.css" rel="stylesheet" type="text/css">
+	<link href="./lib/pio/pio.css" rel="stylesheet" type="text/css">
 </head>
 
 <body style="width: 100%; height: 100%;margin: 0;">
-
-	<button onclick="changeBackground()" >改变背景图</button>
+	<!-- 变换vscode背景图的sdk -->
+	<script src="./lib/background.js"></script>
 
 	<!-- Load TweenLite -->
 	<script src="https://cdn.jsdelivr.net/npm/greensock@1.20.2/dist/TweenLite.js"></script>
 
-	<script src="./lib/live2dcubismcore.min.js"></script>
-	<script src="./lib/live2d.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/pixi.js@5.3.6/dist/pixi.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
+	<!-- load live2d js -->
+	<!-- Load pixi.min.js https://cdn.jsdelivr.net/npm/pixi.js@5.3.6/dist/pixi.min.js -->
+	<script src="./lib/live2d_display/pixi.min.js"></script>
+	<!-- https://github.com/guansss/pixi-live2d-display/blob/master/README.zh.md -->
+	<script src="./lib/live2d_display/live2dcubismcore.min.js"></script>
+	<script src="./lib/live2d_display/live2d.min.js"></script>
+	<script src="./lib/live2d_display/index.min.js"></script>
+	
+	<script src="./lib/pio/pio_sdk4.js"></script>
+	<script src="./lib/pio/pio.js"></script>
 
-	<script src="./lib/pio.js"></script>
-	<script src="./lib/pio_sdk4.js"></script>
 	<script src="./lib/load.js"></script>
 
-	<script src="./background.js"></script>
+	
 	
 	<!-- <script>
 		// const cubism2Model = "./models/Ava/Ava.model3.json";

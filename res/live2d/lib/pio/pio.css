@@ -17,6 +17,12 @@
     color: #666;
     position: fixed;
     user-select: none;
+    cursor: grab;
+    font-size: 12px;  /* 子元素的em动态调整 */
+}
+
+.pio-container:active {
+    cursor: grabbing;
 }
 
 .pio-container .pio-show {
@@ -117,10 +123,10 @@
 }
 
 .pio-container .pio-dialog {
-    top: -2em;
+    top: -2.2em;
     opacity: 0;
     z-index: -1;
-    font-size: .8em;
+    font-size: 1.2em;
     min-width: 12em;
     background: #fff;
     padding: .75em 1em;
@@ -138,23 +144,14 @@
 }
 
 .pio-container.left .pio-dialog {
-    left: 1em
+    left: 1.5em
 }
 
 .pio-container.right .pio-dialog {
-    right: 1em
+    right: 1.5em
 }
 
 #pio {
-    vertical-align: middle
-}
-
-@media screen and (max-width: 768px) {
-    #pio {
-        width: 8em
-    }
-
-    .pio-container {
-        pointer-events: none
-    }
+    vertical-align: middle;
+    width: 22em;
 }

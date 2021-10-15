@@ -4,7 +4,6 @@ var 引流 = [
   "https://www.bilibili.com/video/BV1FX4y1g7u8",
   "https://www.bilibili.com/video/BV1aK4y1P7Cg",
   "https://www.bilibili.com/video/BV17A411V7Uh",
-  "https://www.bilibili.com/video/BV1JV411b7Pc",
   "https://www.bilibili.com/video/BV1AV411v7er",
   "https://www.bilibili.com/video/BV1564y1173Q",
 
@@ -22,12 +21,13 @@ var 引流 = [
 
 const initConfig = {
   mode: "fixed",
-  hidden: true,
+  hidden: false,
   content: {
-    link: 引流[Math.floor(Math.random() * 引流.length)],
+    link: 引流,
     welcome: ["Hi!"],
     touch: "",
-    skin: ["诶，想看看其他团员吗？", "替换后入场文本"],
+    skin: [["诶，想看看其他团员吗？", "嘉晚饭yyds", "嘉晚饭是真的"], "替换后入场文本"],
+    home: ["要切换背景图吗？", "这次切背景图会切到我吗？", "换,换一下背景图也不是不可以啦",],
     custom: [
       { "selector": ".comment-form", "text": "Content Tooltip" },
       { "selector": ".home-social a:last-child", "text": "Blog Tooltip" },
@@ -35,10 +35,10 @@ const initConfig = {
       { "selector": ".post-content a, .page-content a, .post a", "type": "link" }
     ],
   },
-  night: "toggleNightMode()",
+  // night: "toggleNightMode()",
   model: [
-    "https://cdn.jsdelivr.net/gh/journey-ad/blog-img/live2d/Diana/Diana.model3.json",
-    "https://cdn.jsdelivr.net/gh/journey-ad/blog-img/live2d/Ava/Ava.model3.json",
+    "./models/Diana/Diana.model3.json",
+    "./models/Ava/Ava.model3.json",
   ],
   tips: true,
   onModelLoad: onModelLoad

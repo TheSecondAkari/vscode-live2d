@@ -33,11 +33,9 @@ export class Dom {
         this.config = vscode.workspace.getConfiguration(this.configName);
         let firstload = this.checkFirstload();  // 是否初次加载插件
         let fileType = this.getFileType(); // 文件目前状态
-        console.log('dsa')
         // 如果是第一次加载插件，或者旧版本
         if (!firstload || fileType === FileType.isOld || fileType === FileType.empty) {
             const base = path.dirname(require.main.filename);
-            console.log('asd',base)
             copy(path.join(__dirname, '../../res/'), path.join(base, 'vs', 'code', 'electron-browser', 'workbench'));
             this.install(true);
         }
@@ -165,7 +163,7 @@ export class Dom {
      * @returns {boolean} 是否初次加载
      */
     private checkFirstload(): boolean {
-        const configPath = path.join(__dirname, '../../res/config.json');
+        const configPath = path.join(__dirname, '../../res/live2d/config.json');
         let info: { firstload: boolean } = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
         if (info.firstload) {
