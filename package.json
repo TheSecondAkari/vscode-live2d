@@ -16,7 +16,8 @@
 		"asoul",
 		"a-soul",
 		"vtuber",
-    "国内顶级偶像"
+    "国内顶级偶像",
+    "虚拟偶像"
 	],
   "categories": [
     "Other"
@@ -64,7 +65,7 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.60.0",
+    "@types/vscode": "^1.47.0",
     "@types/glob": "^7.1.4",
     "@types/mocha": "^9.0.0",
     "@types/node": "14.x",

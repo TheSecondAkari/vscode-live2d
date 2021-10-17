@@ -53,8 +53,18 @@ function 加载圣·嘉然() {
   pio_refresh_style()
 }
 
+function reSizeLive2d() {
+  const defaultWidth = 280; // 默认宽度280px , zoom = 1
+  const container = document.getElementById("pio-container");
+  if (container)
+    container.style.zoom = Math.round(window.innerWidth / defaultWidth * 100) / 100;
+}
+
+window.addEventListener("resize", reSizeLive2d);
+
 function onModelLoad(model) {
   const container = document.getElementById("pio-container")
+  reSizeLive2d(); // 初始加载
   const canvas = document.getElementById("pio")
   const modelNmae = model.internalModel.settings.name
   const coreModel = model.internalModel.coreModel

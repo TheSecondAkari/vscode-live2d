@@ -37,6 +37,12 @@ function addWrapperStyle() {
 		right: 50px;
 		z-index: 100;
 	}
+	.live2d-wrapper-controller-corner {
+		width: 4px;
+		height: 4px;
+		background-color: #faa;
+		position: absolute;
+	}
 	`;
 	styleNode.appendChild(document.createTextNode(styleContent))
 	document.head.appendChild(styleNode);
@@ -84,8 +90,13 @@ function controlEles(container) {
 	borderIcon.style.cssText = 'width:16px;height:16px;cursor: pointer;';
 	borderIcon.addEventListener('click', (() => {
 		let hasBorder = false;
+		let corners;
 		return () => {
 			hasBorder = !hasBorder;
+			if(hasBorder)
+				corners = addBorderCorner(container, corners);
+			else 
+				corners.forEach(ele => ele.remove());
 			container.style.border = hasBorder ? 'solid 4px white' : '0';
 		}
 	})());
@@ -144,5 +155,122 @@ function receiveMessage(event) {
 			break;
 		default:
 			break;
+	}
+}
+
+// 设置大小
+// function Live2dReSize(){ }
+
+function renderCorner() {
+	// 来4个元素
+	const eles = Array.from({ length: 4 }).map(() =>
+		document.createElement("div")
+	);
+	eles.forEach(x => x.classList.add("live2d-wrapper-controller-corner"));
+	// 分别在topleft、topright、bottomleft、bottomright位置
+	const [tl, tr, bl, br] = eles;
+
+	// 每一个角都移动半个身位
+	Object.assign(tl.style, {
+		top: `-5px`,
+		left: `-5px`,
+		cursor: "nw-resize"
+	});
+	Object.assign(tr.style, {
+		top: `-5px`,
+		cursor: "ne-resize",
+		right: `-5px`
+	});
+	Object.assign(bl.style, {
+		bottom: `-5px`,
+		cursor: "sw-resize",
+		left: `-5px`
+	});
+	Object.assign(br.style, {
+		bottom: `-5px`,
+		cursor: "se-resize",
+		right: `-5px`
+	});
+	return { eles };
+}
+
+function drag(ele, container, type) {
+	if (!type)
+		return;
+	document.addEventListener("mousedown", e => {
+		// 这里过滤掉非目标元素
+		if (e.target !== ele) {
+			return;
+		}
+
+		const { width, height, top, bottom, left, right } = container.getBoundingClientRect();
+		const disx = e.pageX;//获取鼠标相对元素距离
+		const disy = e.pageY;
+		const pageWidth = document.documentElement.clientWidth;
+		const pageHeight = document.documentElement.clientHeight;
+
+		let factorWidth = 1;
+		let factorHeight = 1;
+		// 固定container元素
+		if (type === 'tl') {
+			factorWidth = -1;
+			factorHeight = -1;
+			container.style.top = '';
+			container.style.left = '';
+			container.style.right = pageWidth - right + 'px';
+			container.style.bottom = pageHeight - bottom + 'px';
+		}
+		else if (type === 'tr') {
+			factorHeight = -1;
+			container.style.top = '';
+			container.style.left = left + 'px';
+			container.style.right = '';
+			container.style.bottom = pageHeight - bottom + 'px';
+		}
+		else if (type === 'bl') {
+			factorWidth = -1;
+			container.style.top = top + 'px';
+			container.style.left = '';
+			container.style.right = pageWidth - right + 'px';
+			container.style.bottom = '';
+		}
+		else if (type === 'br') {
+			container.style.top = top + 'px';
+			container.style.left = left + 'px';
+			container.style.right = '';
+			container.style.bottom = '';
+		}
+		const handleMove = (event) => {
+			container.style.width = width + (event.pageX - disx) * factorWidth + 'px';
+			container.style.height = height + (event.pageY - disy) * factorHeight + 'px';
+		};
+		document.addEventListener("mousemove", handleMove);
+		document.addEventListener("mouseup", () => {
+			document.removeEventListener("mousemove", handleMove);
+		});
+		e.preventDefault();//阻止浏览器的默认事件
+	});
+}
+
+function addBorderCorner(target, corners) {
+	if (!target)
+		return;
+	// 获取四个角——eles
+	if (!corners) {
+		const { eles } = renderCorner();
+		const [tl, tr, bl, br] = eles;
+		target.appendChild(tl);
+		drag(tl, target, 'tl');
+		target.appendChild(tr);
+		drag(tr, target, 'tr');
+		target.appendChild(bl);
+		drag(bl, target, 'bl');
+		target.appendChild(br);
+		drag(br, target, 'br');
+		return eles;
+	}
+	else {
+		corners.forEach(ele => target.appendChild(ele));
+		return corners;
 	}
 }
