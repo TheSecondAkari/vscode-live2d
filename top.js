@@ -1,5 +1,7 @@
 class Live2d {
 	live2dWrapper = undefined; // live2d html最外层节点div
+	anchorCore = 'br'; // live2d div 定位依赖，初始默认为右下角， 一共有四个情况: tl,tr,bl,br
+	KEY = 'live2d-asoul-config'; // 用于localstorage存储信息的key
 
 	constructor() {
 		// 添加postmessage事件监听
@@ -9,18 +11,24 @@ class Live2d {
 				return;
 			const { type, data } = event.data;
 			switch (type) {
-				case 'auto-lodash-live2d-asoul':
-					localStorage.setItem('asoul-live2d', 'true')
+				case 'live2d-asoul-openAutoLodash':
+					this.saveConfig({ autoLodash: true });
 					break;
-				case 'unauto-lodash-live2d-asoul':
-					localStorage.setItem('asoul-live2d', 'false')
+				case 'live2d-asoul-closeAutoLodash':
+					this.saveConfig({ autoLodash: false });
 					break;
-				case 'lodash-live2d-asoul':
+				case 'live2d-asoul-lodash':
 					this.createLive2d();
 					break;
-				case 'close-live2d-asoul':
+				case 'live2d-asoul-close':
 					this.deleteLive2d();
 					break;
+				case 'live2d-asoul-setAnchor':
+					this.anchor = data;
+				case 'live2d-asoul-resetPosition':
+					this.resetPosition();
+				case 'live2d-asoul-saveCurrentConfig':
+					this.saveCurrentConfig();
 				default:
 					break;
 			}
@@ -28,8 +36,20 @@ class Live2d {
 		window.addEventListener('message', receiveMessage, false);
 
 		// 从localstorage中获取配置信息，进行对应处理
-		if (localStorage.getItem('asoul-live2d') === 'true')
+		if (this.getConfig().autoLodash === true)
 			this.createLive2d();
+	}
+
+	get anchor() {
+		return this.anchorCore;
+	}
+
+	set anchor(value) {
+		if (['tl', 'tr', 'bl', 'br'].includes(value)) {
+			this.anchorCore = value;
+			this.saveConfig({anchor: value});
+			this.resetLocationDependency(this.live2dWrapper, value); // 恢复目标定位依赖
+		}
 	}
 
 	// 会进行校验，最多只允许创建一个
@@ -42,6 +62,7 @@ class Live2d {
 		}
 		this.live2dWrapper = document.createElement('div');
 		this.live2dWrapper.id = 'live2d-wrapper';
+		Object.assign(this.live2dWrapper.style, this.getConfig().style);
 		// 显示iframe, live2d
 		const iframe = this.initIframe();
 		if (!iframe)
@@ -176,6 +197,7 @@ class Live2d {
 				container.style.top = event.pageY - disy + 'px';
 			};
 			const tempMouseUp = () => {
+				this.resetLocationDependency(container, this.anchor); // 恢复目标定位依赖
 				document.removeEventListener("mousemove", handleMove);
 				document.removeEventListener("mouseup", tempMouseUp);
 			}
@@ -228,54 +250,26 @@ class Live2d {
 		if (!type)
 			return;
 		document.addEventListener("mousedown", e => {
-			console.log()
 			// 这里过滤掉非目标元素
 			if (e.target !== ele) {
 				return;
 			}
 
-			const { width, height, top, bottom, left, right } = container.getBoundingClientRect();
-			const disx = e.pageX;//获取鼠标相对元素距离
-			const disy = e.pageY;
-			const pageWidth = document.documentElement.clientWidth;
-			const pageHeight = document.documentElement.clientHeight;
+			const { width, height } = container.getBoundingClientRect();
 
-			let factorWidth = 1;
-			let factorHeight = 1;
-			// 固定container元素
-			if (type === 'tl') {
-				factorWidth = -1;
-				factorHeight = -1;
-				container.style.top = '';
-				container.style.left = '';
-				container.style.right = pageWidth - right + 'px';
-				container.style.bottom = pageHeight - bottom + 'px';
-			}
-			else if (type === 'tr') {
-				factorHeight = -1;
-				container.style.top = '';
-				container.style.left = left + 'px';
-				container.style.right = '';
-				container.style.bottom = pageHeight - bottom + 'px';
-			}
-			else if (type === 'bl') {
-				factorWidth = -1;
-				container.style.top = top + 'px';
-				container.style.left = '';
-				container.style.right = pageWidth - right + 'px';
-				container.style.bottom = '';
-			}
-			else if (type === 'br') {
-				container.style.top = top + 'px';
-				container.style.left = left + 'px';
-				container.style.right = '';
-				container.style.bottom = '';
-			}
+			// 固定container元素,以使不同定位角可以拉动
+			const antiType = (type[0] == 't' ? 'b' : 't') + (type[1] == 'l' ? 'r' : 'l');
+			this.resetLocationDependency(container, antiType);
 
-			// 防止iframe上的鼠标移动事件丢失
+			// 防止鼠标移动到iframe上，使得鼠标移动事件丢失
 			const iframe = container.getElementsByTagName('iframe')[0];
 			iframe && (iframe.style.pointerEvents = 'none');
 
+			const disx = e.pageX;//获取鼠标相对元素距离
+			const disy = e.pageY;
+
+			let factorWidth = (type === 'tl' || type === 'bl') ? -1 : 1;
+			let factorHeight = (type === 'tl' || type === 'tr') ? -1 : 1;
 			const Live2dResize = (event) => {
 				const newWidth = width + (event.pageX - disx) * factorWidth;
 				const newHeight = height + (event.pageY - disy) * factorHeight;
@@ -287,6 +281,7 @@ class Live2d {
 			};
 			const tempMouseUp = () => {
 				iframe && (iframe.style.pointerEvents = 'inherit');
+				this.resetLocationDependency(container, this.anchor); // 恢复目标定位依赖
 				document.removeEventListener("mousemove", Live2dResize);
 				document.removeEventListener("mouseup", tempMouseUp);
 			}
@@ -317,5 +312,72 @@ class Live2d {
 			corners.forEach(ele => target.appendChild(ele));
 			return corners;
 		}
+	}
+
+	// 重置元素对于某个角落的定位, target目标元素 ， type定位角落
+	resetLocationDependency = (target, type) => {
+		if (target && type) {
+			const { top, bottom, left, right } = target.getBoundingClientRect();
+
+			const pageWidth = document.documentElement.clientWidth;
+			const pageHeight = document.documentElement.clientHeight;
+
+			if (type === 'tl') {
+				target.style.top = top + 'px';
+				target.style.left = left + 'px';
+				target.style.right = '';
+				target.style.bottom = '';
+			}
+			else if (type === 'tr') {
+				target.style.top = top + 'px';
+				target.style.left = '';
+				target.style.right = pageWidth - right + 'px';
+				target.style.bottom = '';
+			}
+			else if (type === 'bl') {
+				target.style.top = '';
+				target.style.left = left + 'px';
+				target.style.right = '';
+				target.style.bottom = pageHeight - bottom + 'px';
+
+			}
+			else if (type === 'br') {
+				target.style.top = '';
+				target.style.left = '';
+				target.style.right = pageWidth - right + 'px';
+				target.style.bottom = pageHeight - bottom + 'px';
+			}
+		}
+	}
+
+	resetPosition = () => {
+		if (this.live2dWrapper) {
+			const style = this.live2dWrapper.style;
+			style.top = '';
+			style.right = '';
+			style.bottom = '';
+			style.left = '';
+			style.width = '';
+			style.height = '';
+		}
+	}
+
+	saveCurrentConfig = () => {
+		if (this.live2dWrapper) {
+			const { top, right, bottom, left, width, height } = this.live2dWrapper.style;
+			const style = { top, right, bottom, left, width, height };
+			this.saveConfig({ style })
+		}
+	}
+
+	saveConfig = (newData) => {
+		const str = localStorage.getItem(this.KEY);
+		const data = str ? JSON.parse(str) : { autoLodash: false, anchor: 'br', style: {} };
+		localStorage.setItem(this.KEY, JSON.stringify({ ...data, ...newData }));
+	}
+
+	getConfig = () => {
+		const str = localStorage.getItem(this.KEY);
+		return str ? JSON.parse(str) : { autoLodash: false, anchor: 'br', style: {} };
 	}
 }

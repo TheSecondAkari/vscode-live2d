@@ -34,16 +34,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 		};
 
 		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
-		// webviewView.webview.onDidReceiveMessage(data => {
-		// 	switch (data.type) {
-		// 		case 'colorSelected':
-		// 			{
-		// 				vscode.window.activeTextEditor?.insertSnippet(new vscode.SnippetString(`#${data.value}`));
-		// 				break;
-		// 			}
-		// 	}
-		// });
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
@@ -68,22 +58,78 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 				<title>Live 2d</title>
 			</head>
 			<body>
-				<button onclick="autoLodashLive2d()" >开启自启动</button>
-				<button onclick="closeAutoLive2d()" >关闭自启动</button>
-				<button onclick="lodashLive2d()" >启动live2d</button>
-				<button onclick="closeLive2d()" > 关闭live2d</button>
+				<div style="max-width: 450px; min-width: 100px; padding: 12px">
+					<div class="common-title">基本操作:</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="lodashLive2d()">启动live2d</button>
+						<button class="common-button" onclick="closeLive2d()"> 关闭live2d</button>
+					</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="saveBackground()">保存背景图</button>
+						<button class="common-button" onclick="loadBackground()"> 加载背景图</button>
+					</div>
+					<div class="common-bar">
+						<button 
+							title="将定位依赖,大小，位置等信息存储，下次启动自动生效" 
+							class="common-button" 
+							onclick="saveCurrentConfig()">
+							保存当前配置
+						</button>
+						<button class="common-button" onclick="resetPosition()">重置默认位置</button>
+					</div>
+					<br />
+					<div class="common-title">配置信息:</div>
+					<div class="common-subtitle">自启动:</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="autoLodashLive2d()">开启</button>
+						<button class="common-button" onclick="closeAutoLive2d()">关闭</button>
+					</div>
+					<!-- <div style="display: flex;" >
+						<div class="common-subtitle">定位依赖:</div>
+						<span style="font-style: 12px;font-weight: 400;">(初始默认为右下角)</span>
+					</div> -->
+					<div class="common-subtitle">定位依赖:</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="setAnchor('tl')">左上角</button>
+						<button class="common-button" onclick="setAnchor('tr')">右上角</button>
+						<button class="common-button" onclick="setAnchor('bl')">左下角</button>
+						<button class="common-button" onclick="setAnchor('br')">右下角</button>
+					</div>
+				</div>
+			
+			
+			
 				<script>
 					function autoLodashLive2d() {
-						window.top.postMessage({type: 'auto-lodash-live2d-asoul'}, "vscode-file://vscode-app");
+						sendCommand('live2d-asoul-openAutoLodash');
 					}
 					function closeAutoLive2d() {
-						window.top.postMessage({type: 'unauto-lodash-live2d-asoul'}, "vscode-file://vscode-app");
+						sendCommand('live2d-asoul-closeAutoLodash');
 					}
 					function lodashLive2d() {
-						window.top.postMessage({type: 'lodash-live2d-asoul'}, "vscode-file://vscode-app");
+						sendCommand('live2d-asoul-lodash');
 					}
 					function closeLive2d() {
-						window.top.postMessage({type: 'close-live2d-asoul'}, "vscode-file://vscode-app");
+						sendCommand('live2d-asoul-close');
+					}
+					function setAnchor(type) {
+						sendCommand('live2d-asoul-setAnchor', type);
+					}
+					function saveCurrentConfig() {
+						sendCommand('live2d-asoul-saveCurrentConfig');
+					}
+					function resetPosition() {
+						sendCommand('live2d-asoul-resetPosition');
+					}
+					function saveBackground() {
+						sendCommand('live2d-asoul-saveBackground');
+					}
+					function loadBackground() {
+						sendCommand('live2d-asoul-loadBackground');
+					}
+			
+					function sendCommand(type, data) {
+						window.top.postMessage({ type, data }, "vscode-file://vscode-app");
 					}
 				</script>
 			</body>

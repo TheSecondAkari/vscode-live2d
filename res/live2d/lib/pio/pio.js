@@ -59,9 +59,16 @@ var Paul_Pio = function (prop) {
             }, 3000);
 
             if (audio) {
-                console.log(audio);
-                var mp3 = new Audio(audio);
-                mp3.play(); //播放 mp3这个音频对象
+                // 无法捕获异常,后续可尝试其他方法
+                try {
+                    console.log('start')
+                    var mp3 = new Audio(audio);
+                    mp3.play(); //播放 mp3这个音频对象
+                    console.log('end')
+                } catch (e) {
+                    console.log('error123')
+                    console.log('eeee',e,JSON.stringify(e), e.toString())
+                }
             }
         },
         // 移除方法
@@ -142,9 +149,9 @@ var Paul_Pio = function (prop) {
             }
 
             // 定时提醒,每一小时提示一下需要休息了
-            setInterval(()=>{
+            setInterval(() => {
                 modules.render('已经连续一个小时写代码了，请注意活动一下身体');
-            }, 1000 * 60 *60);
+            }, 1000 * 60 * 60);
         },
         // 触摸
         touch: function () {

@@ -1,12 +1,12 @@
 html {
-	box-sizing: border-box;
-	font-size: 13px;
+    box-sizing: border-box;
+    font-size: 12px;
 }
 
 *,
 *:before,
 *:after {
-	box-sizing: inherit;
+    box-sizing: inherit;
 }
 
 body,
@@ -19,11 +19,40 @@ h6,
 p,
 ol,
 ul {
-	margin: 0;
-	padding: 0;
-	font-weight: normal;
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
 }
 
 body {
-	background-color: transparent;
+    background-color: transparent;
+}
+
+
+/* new */
+.common-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.common-subtitle {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.common-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.common-bar+.common-bar {
+    margin-top: 4px;
+}
+
+.common-button {
+    min-width: 100px;
+    width: 45%;
+    margin-bottom: 6px;
 }
