@@ -1,5 +1,20 @@
 // 背景图样式基础样式
 let backgroundCssNode;
+const baseList = [1, 2, 3, 4, 5];
+const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+const getRandom = (arr) => arr[Math.floor((Math.random() * arr.length))];
+
+const getRandomArray = (arr, num) => {
+    let sData = arr.slice(0), i = arr.length, min = i - num, item, index;
+    while (i-- > min) {
+        index = Math.floor((i + 1) * Math.random());
+        item = sData[index];
+        sData[index] = sData[i];
+        sData[i] = item;
+    }
+    return sData.slice(min);
+}
 
 function addBackgroundStyle(styleContent) {
     removeBackgroundStyle(); //先清除旧样式
@@ -10,8 +25,7 @@ function addBackgroundStyle(styleContent) {
 }
 
 function removeBackgroundStyle() {
-    if (backgroundCssNode)
-    {
+    if (backgroundCssNode) {
         backgroundCssNode.remove();
         backgroundCssNode = undefined;
     }
@@ -112,23 +126,7 @@ const addSidebarImagesCss = function (images, commonStyle, loop) {
 };
 
 function getAsoulImgs(callback) {
-
-    const baseList = [1, 2, 3, 4, 5];
-
-    const getRandom = (arr) => arr[Math.floor((Math.random() * arr.length))];
-
-    const getRandomArray = (arr, num) => {
-        let sData = arr.slice(0), i = arr.length, min = i - num, item, index;
-        while (i-- > min) {
-            index = Math.floor((i + 1) * Math.random());
-            item = sData[index];
-            sData[index] = sData[i];
-            sData[i] = item;
-        }
-        return sData.slice(min);
-    }
-
-    fetch(`https://api.asoul.cloud:8000/getPic?page=${getRandom(baseList)}&tag_id=0&sort=1&part=0&rank=3&type=1`, {
+    fetch(`https://api.asoul.cloud:8000/getPic?page=${getRandom(pageList)}&tag_id=0&sort=1&part=0&rank=3&type=1`, {
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, same-origin, *omit
         headers: {

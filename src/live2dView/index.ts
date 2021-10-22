@@ -47,7 +47,7 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private _getHtmlForWebview(webview: vscode.Webview) {
-		
+
 
 		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
 		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
@@ -55,7 +55,7 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 		// Do the same for the stylesheet.
 		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
 		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
-	
+
 		// Use a nonce to only allow a specific script to be run.
 		const nonce = getNonce();
 
@@ -68,9 +68,17 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 				<title>Live 2d</title>
 			</head>
 			<body>
+				<button onclick="autoLodashLive2d()" >开启自启动</button>
+				<button onclick="closeAutoLive2d()" >关闭自启动</button>
 				<button onclick="lodashLive2d()" >启动live2d</button>
 				<button onclick="closeLive2d()" > 关闭live2d</button>
 				<script>
+					function autoLodashLive2d() {
+						window.top.postMessage({type: 'auto-lodash-live2d-asoul'}, "vscode-file://vscode-app");
+					}
+					function closeAutoLive2d() {
+						window.top.postMessage({type: 'unauto-lodash-live2d-asoul'}, "vscode-file://vscode-app");
+					}
 					function lodashLive2d() {
 						window.top.postMessage({type: 'lodash-live2d-asoul'}, "vscode-file://vscode-app");
 					}

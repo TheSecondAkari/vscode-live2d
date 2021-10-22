@@ -40,7 +40,7 @@ var Paul_Pio = function (prop) {
             return arr[Math.floor(Math.random() * arr.length + 1) - 1];
         },
         // 创建对话框方法
-        render: function (text) {
+        render: function (text, audio) {
             if (text.constructor === Array) {
                 dialog.innerHTML = modules.rand(text);
             }
@@ -57,6 +57,12 @@ var Paul_Pio = function (prop) {
             this.t = setTimeout(function () {
                 dialog.classList.remove("active");
             }, 3000);
+
+            if (audio) {
+                console.log(audio);
+                var mp3 = new Audio(audio);
+                mp3.play(); //播放 mp3这个音频对象
+            }
         },
         // 移除方法
         destroy: function () {
@@ -80,6 +86,7 @@ var Paul_Pio = function (prop) {
         info: modules.create("span", { class: "pio-info" }),
         night: modules.create("span", { class: "pio-night" }),
         close: modules.create("span", { class: "pio-close" }),
+        audio: modules.create("span", { class: "pio-night" }), // TODO 需更改
 
         show: modules.create("div", { class: "pio-show" })
     };
@@ -133,6 +140,11 @@ var Paul_Pio = function (prop) {
             else {
                 modules.render(prop.content.welcome || "欢迎使用本插件，记得去B站关注a-soul！");
             }
+
+            // 定时提醒,每一小时提示一下需要休息了
+            setInterval(()=>{
+                modules.render('已经连续一个小时写代码了，请注意活动一下身体');
+            }, 1000 * 60 *60);
         },
         // 触摸
         touch: function () {
@@ -181,6 +193,13 @@ var Paul_Pio = function (prop) {
                 modules.render("想了解更多关于我的信息吗？");
             };
             current.menu.appendChild(elements.info);
+
+
+            // 关于我
+            elements.audio.onclick = function () {
+                modules.render("嘉心糖屁都没有用", './models/Diana/audio/嘉然：嘉心糖屁用没有.aac');
+            };
+            current.menu.appendChild(elements.audio);
 
             // 夜间模式
             if (prop.night) {

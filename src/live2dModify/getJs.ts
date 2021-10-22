@@ -5,18 +5,22 @@ export default function (config: any, extName: string, version: string): string 
 	let live2dWrapper; // live2d 顶点div
 	// 会进行校验，最多只允许创建一个
 	function createLive2d() {
-		if(live2dWrapper)
+		if(document.getElementById('live2d-wrapper'))
 			return;
+		if(live2dWrapper) {
+			document.body.appendChild(live2dWrapper);
+			return;
+		}
 		live2dWrapper = document.createElement('div');
 		live2dWrapper.id = 'live2d-wrapper';
-		// 控制按钮
-		const controlBar = controlEles(live2dWrapper);
-		controlBar && live2dWrapper.appendChild(controlBar);
 		// 显示iframe, live2d
 		const iframe = iframeEle();
 		if(!iframe)
 			return;
 		live2dWrapper.appendChild(iframe);
+		// 控制按钮
+		const controlBar = initControlBar(live2dWrapper);
+		controlBar && live2dWrapper.appendChild(controlBar);
 		addWrapperStyle();
 		document.body.appendChild(live2dWrapper);
 	}
@@ -25,7 +29,7 @@ export default function (config: any, extName: string, version: string): string 
 		if(live2dWrapper)
 		{
 			live2dWrapper.remove();
-			live2dWrapper = undefined;
+			// live2dWrapper = undefined;
 		}
 	}
 	
@@ -64,8 +68,8 @@ export default function (config: any, extName: string, version: string): string 
 		height:20px;
 	}
 	.live2d-wrapper-controller-corner {
-		width: 8px;
-		height: 8px;
+		width: 10px;
+		height: 10px;
 		background-color: #faa;
 		position: absolute;
 	}
@@ -86,12 +90,12 @@ export default function (config: any, extName: string, version: string): string 
 	}
 
 	// 控制图标
-	function controlEles(container) {
+	function initControlBar(container) {
 		const controlEles = document.createElement('div');
 		controlEles.classList.add("live2d-wrapper-controller-wrapper");
 
 		const borderIconDiv = document.createElement('div');
-		borderIconDiv.title = '添加/移除边框';
+		borderIconDiv.title = '调整大小';
 		const borderIcon = document.createElement('img');
 		borderIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/c87f9f3d038d2598.png';
 		borderIcon.classList.add("live2d-wrapper-controller-icon");
@@ -142,10 +146,12 @@ export default function (config: any, extName: string, version: string): string 
 				container.style.left = event.pageX - disx + 'px';
 				container.style.top = event.pageY - disy + 'px';
 			};
-			document.addEventListener("mousemove", handleMove);
-			document.addEventListener("mouseup", () => {
+			const tempMouseUp = () => {
 				document.removeEventListener("mousemove", handleMove);
-			});
+				document.removeEventListener("mouseup", tempMouseUp);
+			}
+			document.addEventListener("mousemove", handleMove);
+			document.addEventListener("mouseup", tempMouseUp);
 			e.preventDefault();//阻止浏览器的默认事件
 		});
 		dragIconDiv.appendChild(dragIcon);
@@ -153,26 +159,6 @@ export default function (config: any, extName: string, version: string): string 
 	
 		return controlEles;
 	}
-
-	window.addEventListener('message', receiveMessage, false);
-
-	function receiveMessage(event) {
-		const origin = event.origin || event.originalEvent.origin;
-		if (origin !== "vscode-webview://webviewview-vscode-live2d-live2dview")
-			return;
-		const {type, data} = event.data;
-		switch(type) {
-			case 'lodash-live2d-asoul':
-				createLive2d();
-				break;
-			case 'close-live2d-asoul':
-				deleteLive2d();
-				break;
-			default:
-				break;
-		}
-	}
-
 	
 // 设置大小
 // function Live2dReSize(){ }
@@ -257,14 +243,27 @@ function drag(ele, container, type) {
 			container.style.right = '';
 			container.style.bottom = '';
 		}
+
+		// 防止iframe上的鼠标移动事件丢失
+		const iframe = container.getElementsByTagName('iframe')[0];
+		console.log('asd', iframe)
+		iframe && (iframe.style.pointerEvents = 'none');
+		console.log('asd', iframe)
 		const Live2dResize = (event) => {
-			container.style.width = width + (event.pageX - disx) * factorWidth + 'px';
-			container.style.height = height + (event.pageY - disy) * factorHeight + 'px';
+			const newWidth = width + (event.pageX - disx) * factorWidth;
+			const newHeight = height + (event.pageY - disy) * factorHeight;
+			if(newWidth >= 75)
+				container.style.width = newWidth + 'px';
+			if(newHeight >= 75)
+				container.style.height = newHeight + 'px';
 		};
-		document.addEventListener("mousemove", Live2dResize);
-		document.addEventListener("mouseup", () => {
+		const tempMouseUp = () => {
+			iframe && (iframe.style.pointerEvents = 'inherit');
 			document.removeEventListener("mousemove", Live2dResize);
-		});
+			document.removeEventListener("mouseup", tempMouseUp);
+		}
+		document.addEventListener("mousemove", Live2dResize);
+		document.addEventListener("mouseup", tempMouseUp);
 		e.preventDefault();//阻止浏览器的默认事件
 	});
 }
@@ -292,44 +291,38 @@ function addBorderCorner(target, corners) {
 	}
 }
 
+window.addEventListener('message', receiveMessage, false);
+
+function receiveMessage(event) {
+	const origin = event.origin || event.originalEvent.origin;
+	if (origin !== "vscode-webview://webviewview-vscode-live2d-live2dview")
+		return;
+	const {type, data} = event.data;
+	switch(type) {
+		case 'auto-lodash-live2d-asoul':
+			localStorage.setItem('asoul-live2d', 'true')
+			break;
+		case 'unauto-lodash-live2d-asoul':
+			localStorage.setItem('asoul-live2d', 'false')
+			break;
+		case 'lodash-live2d-asoul':
+			createLive2d();
+			break;
+		case 'close-live2d-asoul':
+			deleteLive2d();
+			break;
+		default:
+			break;
+	}
+}
+
+function Live2dInit() {
+	if (localStorage.getItem('asoul-live2d') === 'true')
+		createLive2d();
+}
+
+Live2dInit();
 	
 	/*ext-${extName}-end*/
 	`;
-}
-
-function customizeModel(modelUrl: string, model: string) {
-	if (modelUrl) {
-		return modelUrl;
-	} else {
-		switch (model) {
-			case 'shizuku':
-				return './models/shizuku/index.json';
-			case 'shizuku-pajama':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/ShizukuTalk/shizuku-pajama/index.json';
-			case 'bilibili-22':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/bilibili-live/22/index.json';
-			case 'bilibili-33':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/bilibili-live/33/index.json';
-			case 'Pio':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Pio/index.json';
-			case 'Tia':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Tia/index.json';
-			case 'noir':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/noir_classic/index.json';
-			case 'nepnep':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepnep/index.json';
-			case 'nepmaid':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepmaid/index.json';
-			case 'nepgear':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/nepgear/index.json';
-			case 'vert':
-				return 'https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/HyperdimensionNeptunia/vert_swimwear/index.json';
-			case 'tororo':
-				return 'https://unpkg.com/live2d-widget-model-tororo@1.0.5/assets/tororo.model.json';
-			case 'hijiki':
-				return 'https://unpkg.com/live2d-widget-model-hijiki@1.0.5/assets/hijiki.model.json';
-			default:
-				return '';
-		}
-	}
 }
