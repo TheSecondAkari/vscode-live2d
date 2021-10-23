@@ -104,11 +104,32 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button class="common-button" onclick="setAnchor('bl')">左下角</button>
 						<button class="common-button" onclick="setAnchor('br')">右下角</button>
 					</div>
+
+					<br />
+					<div class="common-title">拓展配置:</div>
+					<div class="common-subtitle">添加音频输出能力:</div>
+					<div class="common-bar">
+						<button 
+							title="注意该功能会将vscode目录下的ffmpeg.dll替换为有音频处理能力的文件ffmpeg.dll(来源electron v4.2.7 window 64位)"
+							class="common-button" 
+							onclick="setFfmpeg()">
+							开启
+						</button>
+						<button class="common-button" onclick="restoreFfmpeg()">关闭</button>
+					</div>
 				</div>
 			
 			
 			
 				<script>
+					function setFfmpeg() {
+
+					}
+
+					function restoreFfmpeg() {
+
+					}
+
 					let background_time = 30;
 
 					function handleChangeTime(e) {

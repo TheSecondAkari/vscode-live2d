@@ -127,7 +127,7 @@ export default function (config: any, extName: string, version: string): string 
 				opacity: 0;
 				transition: all 0.2s;
 			}
-			.live2d-wrapper-controller-wrapper:hover {
+			div#live2d-wrapper:hover .live2d-wrapper-controller-wrapper {
 				opacity: 1;
 			}
 			.live2d-wrapper-controller-icon {

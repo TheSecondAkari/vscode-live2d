@@ -14,8 +14,11 @@
 var Paul_Pio = function (prop) {
     var that = this;
 
+    // 音频实例，只维护一个
+    var audioInstance = new Audio();
+
     var current = {
-        idol: 0,
+        idol: localStorage.getItem('live2d-asoul-model') ? Number(localStorage.getItem('live2d-asoul-model')) : 0,
         menu: document.querySelector(".pio-container .pio-action"),
         canvas: document.getElementById("pio"),
         body: document.querySelector(".pio-container"),
@@ -39,6 +42,17 @@ var Paul_Pio = function (prop) {
         rand: function (arr) {
             return arr[Math.floor(Math.random() * arr.length + 1) - 1];
         },
+        // 播放音频
+        audioPlay: function (url) {
+            if (url && audioInstance) {
+                audioInstance.pause();
+                audioInstance.src = url;
+                audioInstance.play().catch((e) => {
+                    if (e.toString() == 'NotSupportedError: Failed to load because no supported source was found.')
+                        this.render('vscode默认不支持html音频处理,可从配置面板开启该功能')
+                })
+            }
+        },
         // 创建对话框方法
         render: function (text, audio) {
             if (text.constructor === Array) {
@@ -58,23 +72,8 @@ var Paul_Pio = function (prop) {
                 dialog.classList.remove("active");
             }, 3000);
 
-            if (audio) {
-                // 无法捕获异常,后续可尝试其他方法
-                try {
-                    console.log('start')
-                    var mp3 = new Audio(audio);
-                    mp3.play(); //播放 mp3这个音频对象
-                    console.log('end')
-                } catch (e) {
-                    console.log('error123')
-                    console.log('eeee',e,JSON.stringify(e), e.toString())
-                }
-            }
-        },
-        // 移除方法
-        destroy: function () {
-            that.initHidden();
-            localStorage.setItem("posterGirl", 0);
+            // 播放音频
+            audio && this.audioPlay(audio);
         },
         // 是否为移动设备
         isMobile: function () {
@@ -85,16 +84,15 @@ var Paul_Pio = function (prop) {
         }
     };
     this.modules = modules;
-    this.destroy = modules.destroy;
 
     var elements = {
         home: modules.create("span", { class: "pio-home" }),
         background: modules.create("span", { class: "pio-background" }), // 用于切换背景图
         skin: modules.create("span", { class: "pio-skin" }),
-        info: modules.create("span", { class: "pio-info" }),
-        night: modules.create("span", { class: "pio-night" }),
+        skate: modules.create("span", { class: "pio-skate" }),
         audio: modules.create("span", { class: "pio-diana" }), // 语音功能测试
-
+        fans: modules.create("span", { class: "pio-asoulfans" }),
+        info: modules.create("span", { class: "pio-info" }),
         // close: modules.create("span", { class: "pio-close" }),
         // show: modules.create("div", { class: "pio-show" })
     };
@@ -107,12 +105,7 @@ var Paul_Pio = function (prop) {
     var action = {
         // 欢迎
         welcome: function () {
-            if (document.referrer !== "" && document.referrer.indexOf(current.root) === -1) {
-                var referrer = document.createElement('a');
-                referrer.href = document.referrer;
-                prop.content.referer ? modules.render(prop.content.referer.replace(/%t/, "“" + referrer.hostname + "”")) : modules.render("欢迎来自 “" + referrer.hostname + "” 的朋友！");
-            }
-            else if (prop.tips) {
+            if (prop.tips) {
                 var text, hour = new Date().getHours();
 
                 if (hour > 22 || hour <= 5) {
@@ -162,7 +155,7 @@ var Paul_Pio = function (prop) {
         },
         // 右侧按钮
         buttons: function () {
-            // 返回首页
+            // asoulworld网站
             elements.home.onclick = function () {
                 window.open('https://asoulworld.com/')
             };
@@ -171,17 +164,20 @@ var Paul_Pio = function (prop) {
             };
             current.menu.appendChild(elements.home);
 
+            // 更换背景图
             elements.background.onclick = function () {
                 changeBackground && changeBackground();
             };
             elements.background.onmouseover = function () {
-                modules.render(prop.content.background || "想查看更多A-Soul的信息吗？");
+                modules.render(prop.content.background || "背景图？早该换换了");
             };
             current.menu.appendChild(elements.background);
 
             // 更换模型
             elements.skin.onclick = function () {
-                that.model = loadlive2d("pio", prop.model[modules.idol()], model => {
+                const modelIndex = modules.idol();
+                localStorage.setItem('live2d-asoul-model', modelIndex);
+                that.model = loadlive2d("pio", prop.model[modelIndex], model => {
                     prop.onModelLoad && prop.onModelLoad(model)
                     prop.content.skin && prop.content.skin[1] ? modules.render(prop.content.skin[1]) : modules.render("新衣服真漂亮~");
                 });
@@ -191,8 +187,8 @@ var Paul_Pio = function (prop) {
             };
             if (prop.model.length > 1) current.menu.appendChild(elements.skin);
 
-            // 关于我
-            elements.info.onclick = function () {
+            // 溜冰场
+            elements.skate.onclick = function () {
                 const link = prop.content.link;
                 if (link) {
                     if (Array.isArray(link))
@@ -204,53 +200,39 @@ var Paul_Pio = function (prop) {
                     window.open("https://paugram.com/coding/add-poster-girl-with-plugin.html");
                 }
             };
-            elements.info.onmouseover = function () {
-                modules.render("想了解更多关于我的信息吗？");
+            elements.skate.onmouseover = function () {
+                const list = ["溜冰去咯", "随机挑战开启", "溜冰的意思不是让你咬咬牙溜十次八次，而是要上百次", "你想摸鱼？？？"]
+                modules.render(list);
             };
-            current.menu.appendChild(elements.info);
+            current.menu.appendChild(elements.skate);
 
 
-            // 关于我
+            // 音频测试
             elements.audio.onclick = function () {
                 modules.render("嘉心糖屁都没有用", './models/Diana/audio/嘉然：嘉心糖屁用没有.aac');
             };
+            elements.audio.onmouseover = function () {
+                modules.render("音频测试");
+            };
             current.menu.appendChild(elements.audio);
 
+            // 一个魂们的二创
+            elements.fans.onclick = function () {
+                window.open("https://asoul.cloud/");
+            };
+            elements.fans.onmouseover = function () {
+                modules.render("想看更多一个魂们的二创吗？");
+            };
+            current.menu.appendChild(elements.fans);
 
-            // 关闭看板娘
-            // elements.close.onclick = function () {
-            //     modules.destroy();
-            // };
-            // elements.close.onmouseover = function () {
-            //     modules.render(prop.content.close || "QWQ 下次再见吧~");
-            // };
-            // current.menu.appendChild(elements.close);
-        },
-        custom: function () {
-            prop.content.custom.forEach(function (t) {
-                if (!t.type) t.type = "default";
-                var e = document.querySelectorAll(t.selector);
-
-                if (e.length) {
-                    for (var j = 0; j < e.length; j++) {
-                        if (t.type === "read") {
-                            e[j].onmouseover = function () {
-                                modules.render("想阅读 %t 吗？".replace(/%t/, "“" + this.innerText + "”"));
-                            }
-                        }
-                        else if (t.type === "link") {
-                            e[j].onmouseover = function () {
-                                modules.render("想了解一下 %t 吗？".replace(/%t/, "“" + this.innerText + "”"));
-                            }
-                        }
-                        else if (t.text) {
-                            e[j].onmouseover = function () {
-                                modules.render(t.text);
-                            }
-                        }
-                    }
-                }
-            });
+            // 关于我
+            elements.info.onclick = function () {
+                window.open("https://www.bilibili.com/video/BV1FZ4y1F7HH");
+            };
+            elements.info.onmouseover = function () {
+                modules.render(["想了解更多关于我的信息吗？", "模型来源"]);
+            };
+            current.menu.appendChild(elements.info);
         }
     };
 
@@ -294,7 +276,7 @@ var Paul_Pio = function (prop) {
         if (!(prop.hidden && modules.isMobile())) {
             if (!onlyText) {
                 action.welcome();
-                that.model = loadlive2d("pio", prop.model[0], model => {
+                that.model = loadlive2d("pio", prop.model[current.idol], model => {
                     prop.onModelLoad && prop.onModelLoad(model)
                 });
             }
@@ -305,23 +287,10 @@ var Paul_Pio = function (prop) {
                 case "draggable": begin.draggable(); break;
             }
 
-            if (prop.content.custom) action.custom();
         }
     };
 
-    // 隐藏状态
-    this.initHidden = function () {
-        current.body.classList.add("hidden");
-        dialog.classList.remove("active");
-
-        elements.show.onclick = function () {
-            current.body.classList.remove("hidden");
-            localStorage.setItem("posterGirl", 1);
-            that.init();
-        }
-    }
-
-    localStorage.getItem("posterGirl") == 0 ? this.initHidden() : this.init();
+    this.init();
 };
 
 // 请保留版权说明

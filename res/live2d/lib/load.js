@@ -1,5 +1,6 @@
 var 引流 = [
   "https://space.bilibili.com/672328094",
+  "https://space.bilibili.com/672346917",
   "https://www.bilibili.com/video/BV1FZ4y1F7HH",
   "https://www.bilibili.com/video/BV1FX4y1g7u8",
   "https://www.bilibili.com/video/BV1aK4y1P7Cg",
@@ -28,14 +29,7 @@ const initConfig = {
     home: ["这里有很多好看的", "想查看更多A-Soul的信息吗？"],
     skin: [["诶，想看看其他团员吗？", "嘉晚饭yyds", "嘉晚饭是真的"], "替换后入场文本"],
     background: ["要切换背景图吗？", "这次切背景图会切到我吗？", "换,换一下背景图也不是不可以啦",],
-    custom: [
-      { "selector": ".comment-form", "text": "Content Tooltip" },
-      { "selector": ".home-social a:last-child", "text": "Blog Tooltip" },
-      { "selector": ".list .postname", "type": "read" },
-      { "selector": ".post-content a, .page-content a, .post a", "type": "link" }
-    ],
   },
-  // night: "toggleNightMode()",
   model: [
     "./models/Diana/Diana.model3.json",
     "./models/Ava/Ava.model3.json",
