@@ -209,7 +209,8 @@ var Paul_Pio = function (prop) {
 
             // 音频测试
             elements.audio.onclick = function () {
-                modules.render("嘉心糖屁都没有用", './models/Diana/audio/嘉然：嘉心糖屁用没有.aac');
+                const text = modules.rand(['嘉心糖屁都没有用', '试图把我激怒']);
+                modules.render(text, `./models/Diana/audio/嘉然：${text}.aac`);
             };
             elements.audio.onmouseover = function () {
                 modules.render("音频测试");

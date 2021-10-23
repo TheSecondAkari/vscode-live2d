@@ -216,8 +216,9 @@ function onModelLoad(model) {
       "neko", // 喵喵拳
       "game", // 左手游戏手柄
       "Part15", // 墨镜
-      "Part21", // 右手小臂
-      "Part22", // 左手垂下
+      // "Part21", // 右手小臂
+      // "Part22", // 左手垂下
+      "gitar", // 吉他 ！和 上面 part21 22 冲突
       "Part", // 双手抱拳
       "Part16", // 惊讶特效
       "Part12" // 小心心

@@ -2,7 +2,7 @@
   "name": "vscode-live2d",
   "displayName": "A-SOUL-live2d",
   "description": "vscode插件-live2d看板娘。 默认角色会设置为asoul的嘉然",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "TheSecondAkari",
   "publisher": "TheSecondAkari",
   "engines": {
@@ -19,12 +19,12 @@
     "国内顶级偶像",
     "虚拟偶像"
 	],
+  "icon": "logo.png",
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onView:vscode-live2d.live2dView",
-    "onCommand:vscode-live2d.helloWorld"
+    "onView:vscode-live2d.live2dView"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -33,7 +33,7 @@
 				{
 					"type": "webview",
 					"id": "vscode-live2d.live2dView",
-					"name": "看板娘"
+					"name": "live2d-A-Soul"
 				}
 			]
 		},
@@ -46,11 +46,6 @@
 						"type": "boolean",
 						"default": true,
 						"description": "是否启用看板娘"
-					},
-					"vscode-live2d.modelUrl": {
-						"type": "string",
-						"default": "",
-						"description": "自定义导入喜欢的模型url，错误的url会导致看板娘无法正常显示"
 					}
 				}
 			}
