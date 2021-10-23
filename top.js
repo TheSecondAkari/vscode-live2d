@@ -1,5 +1,6 @@
 class Live2d {
 	live2dWrapper = undefined; // live2d html最外层节点div
+	live2dIframe = undefined; // live2d 的具体 iframe页面
 	anchorCore = 'br'; // live2d div 定位依赖，初始默认为右下角， 一共有四个情况: tl,tr,bl,br
 	KEY = 'live2d-asoul-config'; // 用于localstorage存储信息的key
 
@@ -25,10 +26,25 @@ class Live2d {
 					break;
 				case 'live2d-asoul-setAnchor':
 					this.anchor = data;
+					break;
 				case 'live2d-asoul-resetPosition':
 					this.resetPosition();
+					break;
 				case 'live2d-asoul-saveCurrentConfig':
 					this.saveCurrentConfig();
+					break;
+				case 'live2d-asoul-saveBackground':
+					this.saveBackground();
+					break;
+				case 'live2d-asoul-loadBackground':
+					this.loadBackground();
+					break;
+				case 'live2d-asoul-openBackgroundSetTime':
+					this.openBackgroundSetTime(data);
+					break;
+				case 'live2d-asoul-closeBackgroundSetTime':
+					this.closeBackgroundSetTime();
+					break;
 				default:
 					break;
 			}
@@ -47,7 +63,7 @@ class Live2d {
 	set anchor(value) {
 		if (['tl', 'tr', 'bl', 'br'].includes(value)) {
 			this.anchorCore = value;
-			this.saveConfig({anchor: value});
+			this.saveConfig({ anchor: value });
 			this.resetLocationDependency(this.live2dWrapper, value); // 恢复目标定位依赖
 		}
 	}
@@ -67,6 +83,7 @@ class Live2d {
 		const iframe = this.initIframe();
 		if (!iframe)
 			return;
+		this.live2dIframe = iframe;
 		this.live2dWrapper.appendChild(iframe);
 		// 控制按钮
 		const controlBar = this.initControlBar(this.live2dWrapper);
@@ -379,5 +396,29 @@ class Live2d {
 	getConfig = () => {
 		const str = localStorage.getItem(this.KEY);
 		return str ? JSON.parse(str) : { autoLodash: false, anchor: 'br', style: {} };
+	}
+
+	saveBackground = () => {
+		const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
+		if (innerWindow && innerWindow.saveBackground)
+			innerWindow.saveBackground();
+	}
+
+	loadBackground = () => {
+		const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
+		if (innerWindow && innerWindow.loadBackground)
+			innerWindow.loadBackground();
+	}
+
+	openBackgroundSetTime = (time) => {
+		const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
+		if (innerWindow && innerWindow.loadBackground)
+			innerWindow.openBackgroundSetTime(time);
+	}
+
+	closeBackgroundSetTime = () => {
+		const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
+		if (innerWindow && innerWindow.loadBackground)
+			innerWindow.closeBackgroundSetTime(time);
 	}
 }

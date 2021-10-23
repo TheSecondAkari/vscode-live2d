@@ -89,18 +89,19 @@ var Paul_Pio = function (prop) {
 
     var elements = {
         home: modules.create("span", { class: "pio-home" }),
+        background: modules.create("span", { class: "pio-background" }), // 用于切换背景图
         skin: modules.create("span", { class: "pio-skin" }),
         info: modules.create("span", { class: "pio-info" }),
         night: modules.create("span", { class: "pio-night" }),
-        close: modules.create("span", { class: "pio-close" }),
-        audio: modules.create("span", { class: "pio-night" }), // TODO 需更改
+        audio: modules.create("span", { class: "pio-diana" }), // 语音功能测试
 
-        show: modules.create("div", { class: "pio-show" })
+        // close: modules.create("span", { class: "pio-close" }),
+        // show: modules.create("div", { class: "pio-show" })
     };
 
     var dialog = modules.create("div", { class: "pio-dialog" });
     current.body.appendChild(dialog);
-    current.body.appendChild(elements.show);
+    // current.body.appendChild(elements.show);  // 自带的显示和关闭 注释掉
 
     /* - 提示操作 */
     var action = {
@@ -163,13 +164,20 @@ var Paul_Pio = function (prop) {
         buttons: function () {
             // 返回首页
             elements.home.onclick = function () {
-                // location.href = current.root;
-                changeBackground && changeBackground();
+                window.open('https://asoulworld.com/')
             };
             elements.home.onmouseover = function () {
-                modules.render(prop.content.home || "点击这里回到首页！");
+                modules.render(prop.content.home || "想查看更多A-Soul的信息吗？");
             };
             current.menu.appendChild(elements.home);
+
+            elements.background.onclick = function () {
+                changeBackground && changeBackground();
+            };
+            elements.background.onmouseover = function () {
+                modules.render(prop.content.background || "想查看更多A-Soul的信息吗？");
+            };
+            current.menu.appendChild(elements.background);
 
             // 更换模型
             elements.skin.onclick = function () {
@@ -208,25 +216,15 @@ var Paul_Pio = function (prop) {
             };
             current.menu.appendChild(elements.audio);
 
-            // 夜间模式
-            if (prop.night) {
-                elements.night.onclick = function () {
-                    eval(prop.night);
-                };
-                elements.night.onmouseover = function () {
-                    modules.render("夜间点击这里可以保护眼睛呢");
-                };
-                current.menu.appendChild(elements.night);
-            }
 
             // 关闭看板娘
-            elements.close.onclick = function () {
-                modules.destroy();
-            };
-            elements.close.onmouseover = function () {
-                modules.render(prop.content.close || "QWQ 下次再见吧~");
-            };
-            current.menu.appendChild(elements.close);
+            // elements.close.onclick = function () {
+            //     modules.destroy();
+            // };
+            // elements.close.onmouseover = function () {
+            //     modules.render(prop.content.close || "QWQ 下次再见吧~");
+            // };
+            // current.menu.appendChild(elements.close);
         },
         custom: function () {
             prop.content.custom.forEach(function (t) {

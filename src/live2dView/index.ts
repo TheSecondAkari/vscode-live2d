@@ -65,10 +65,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button class="common-button" onclick="closeLive2d()"> 关闭live2d</button>
 					</div>
 					<div class="common-bar">
-						<button class="common-button" onclick="saveBackground()">保存背景图</button>
-						<button class="common-button" onclick="loadBackground()"> 加载背景图</button>
-					</div>
-					<div class="common-bar">
 						<button 
 							title="将定位依赖,大小，位置等信息存储，下次启动自动生效" 
 							class="common-button" 
@@ -77,12 +73,25 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						</button>
 						<button class="common-button" onclick="resetPosition()">重置默认位置</button>
 					</div>
+
+					<div class="common-subtitle">背景图:</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="saveBackground()">保存背景图</button>
+						<button class="common-button" onclick="loadBackground()"> 加载背景图</button>
+					</div>
+					<div class="common-subtitle">定时切换(分钟/默认30分钟):</div>
+					<div class="common-bar">
+						<input style="width: 30%" type="number" onchange="handleChangeTime(event)" />
+						<button style="width: 30%" onclick="openBackgroundSetTime()"> 开启</button>
+						<button style="width: 30%" onclick="closeBackgroundSetTime()"> 关闭</button>
+					</div>
+					
 					<br />
 					<div class="common-title">配置信息:</div>
 					<div class="common-subtitle">自启动:</div>
 					<div class="common-bar">
-						<button class="common-button" onclick="autoLodashLive2d()">开启</button>
-						<button class="common-button" onclick="closeAutoLive2d()">关闭</button>
+						<button class="common-button" onclick="openAutoLodash()">开启</button>
+						<button class="common-button" onclick="closeAutoLodash()">关闭</button>
 					</div>
 					<!-- <div style="display: flex;" >
 						<div class="common-subtitle">定位依赖:</div>
@@ -100,10 +109,28 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 			
 			
 				<script>
-					function autoLodashLive2d() {
+					let background_time = 30;
+
+					function handleChangeTime(e) {
+						const value = Number(e.target.value);
+						if(value > 0) {
+							background_time = value;
+						}
+						else e.target.value = '0.5';
+					}
+
+					function openBackgroundSetTime () {
+						sendCommand('live2d-asoul-openBackgroundSetTime', background_time);
+					}
+
+					function closeBackgroundSetTime () {
+						sendCommand('live2d-asoul-closeBackgroundSetTime');
+					}
+
+					function openAutoLodash() {
 						sendCommand('live2d-asoul-openAutoLodash');
 					}
-					function closeAutoLive2d() {
+					function closeAutoLodash() {
 						sendCommand('live2d-asoul-closeAutoLodash');
 					}
 					function lodashLive2d() {

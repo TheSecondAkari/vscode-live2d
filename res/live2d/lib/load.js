@@ -11,7 +11,6 @@ var 引流 = [
   "https://www.bilibili.com/video/BV17h411U71w",
   "https://www.bilibili.com/video/BV1ry4y1Y71t",
   "https://www.bilibili.com/video/BV1Sy4y1n7c4",
-  "https://www.bilibili.com/video/BV15y4y177uk",
   "https://www.bilibili.com/video/BV1PN411X7QW",
   "https://www.bilibili.com/video/BV1Dp4y1H7iB",
   "https://www.bilibili.com/video/BV1bi4y1P7Eh",
@@ -26,8 +25,9 @@ const initConfig = {
     link: 引流,
     welcome: ["Hi!"],
     touch: "",
+    home: ["这里有很多好看的", "想查看更多A-Soul的信息吗？"],
     skin: [["诶，想看看其他团员吗？", "嘉晚饭yyds", "嘉晚饭是真的"], "替换后入场文本"],
-    home: ["要切换背景图吗？", "这次切背景图会切到我吗？", "换,换一下背景图也不是不可以啦",],
+    background: ["要切换背景图吗？", "这次切背景图会切到我吗？", "换,换一下背景图也不是不可以啦",],
     custom: [
       { "selector": ".comment-form", "text": "Content Tooltip" },
       { "selector": ".home-social a:last-child", "text": "Blog Tooltip" },

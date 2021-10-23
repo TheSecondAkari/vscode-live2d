@@ -49,6 +49,10 @@
             <button class="common-button" onclick="lodashLive2d()">保存背景图</button>
             <button class="common-button" onclick="closeLive2d()"> 加载背景图</button>
         </div>
+        <div>
+            <input onchange="" />
+            <button onclick="closeLive2d()"> 开启定时切换背景图</button>
+        </div>
         <div class="common-bar">
             <button class="common-button" onclick="lodashLive2d()">保存当前配置</button>
             <button class="common-button" onclick="closeLive2d()">重置为默认位置</button>
@@ -76,6 +80,12 @@
 
 
     <script>
+        let background_time = 30;
+
+        function handleChangeTime(e) {
+            console.log(e, e.target.value)
+        }
+
         function autoLodashLive2d() {
             sendCommand('live2d-asoul-openAutoLodash');
         }

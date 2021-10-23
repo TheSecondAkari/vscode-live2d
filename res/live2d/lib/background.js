@@ -2,6 +2,8 @@
 let backgroundCssNode;
 const baseList = [1, 2, 3, 4, 5];
 const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+let currentImgs = undefined;
+const IMGKEY = 'live2d-asoul-background';
 
 const getRandom = (arr) => arr[Math.floor((Math.random() * arr.length))];
 
@@ -147,12 +149,59 @@ function getAsoulImgs(callback) {
         });
 }
 
-const changeBackground = () => getAsoulImgs((imgs) => {
-    const css = getBackgroundStyleText(imgs.slice(0, 5), imgs.slice(5, 10));
+// 切换背景的具体操作
+function changeAction(imgs) {
+    const sidebar = imgs.slice(0, 5);
+    const coding = imgs.slice(5, 10);
+    currentImgs = [...sidebar, ...coding];
+    const css = getBackgroundStyleText(sidebar, coding);
     addBackgroundStyle(css);
-})
+}
 
-const removeBackground = () => {
+// 设置背景图，从接口获取，随机设置
+const changeBackground = () => getAsoulImgs(changeAction)
+
+// 移除背景图
+function removeBackground() {
     removeBackgroundStyle();
 }
 
+// 保存背景图
+function saveBackground() {
+    if (currentImgs)
+        localStorage.setItem(IMGKEY, JSON.stringify(currentImgs));
+}
+
+// 加载背景图
+function loadBackground() {
+    const str = localStorage.getItem(IMGKEY);
+    if (str) {
+        const imgs = JSON.parse(str);
+        changeAction(imgs);
+    }
+}
+
+// 设置定时切换背景图
+let timer = undefined;
+function openBackgroundSetTime(time) {
+    closeBackgroundSetTime();
+    if (typeof time === 'number' && time > 0) {
+        timer = setInterval(() => {
+            changeBackground();
+        }, 1000 * 60 * time)
+        // 加入旋转样式
+        document.getElementsByClassName('pio-background')[0].classList.add('normal-cycle');
+    }
+}
+
+// 关闭定时切换背景图
+function closeBackgroundSetTime() {
+    if (timer) {
+        clearInterval(timer);
+        timer = undefined;
+        // 移除旋转样式
+        document.getElementsByClassName('pio-background')[0].classList.remove('normal-cycle');
+    }
+}
+
+// 
