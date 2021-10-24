@@ -7,7 +7,7 @@
 
 使用 iframe 嵌入页面中，实现效果。
 
-- 启动 live2d 看板娘视图(sdk: )
+- 启动 live2d 看板娘视图(使用sdk: [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display)   [pio](https://paugram.com/))
 - 模型：嘉然、向晚（来源 b 站 up：[木果阿木果](https://space.bilibili.com/886695)）
 - 整体操作
   - 拖拽位置
@@ -151,3 +151,18 @@ curl https://gist.githubusercontent.com/nondanee/f157bbbccecfe29e48d87273cd02e21
 如果 VS Code 使用默认配置安装，脚本会自动寻找并替换，若自定义了安装位置，请自行修改 [installation](https://gist.github.com/nondanee/f157bbbccecfe29e48d87273cd02e213#file-helper-py-L20)
 
 </details>
+
+  
+# 鸣谢
+[vscode-live2d](https://marketplace.visualstudio.com/items?itemName=CharlesZ.vscode-live2d)  
+[pixi-live2d-display](https://github.com/guansss/pixi-live2d-display)  
+[pio](https://paugram.com/)  
+[journey-ad](https://github.com/journey-ad)
+  
+还有乐于分享的一个魂们  
+[asoul 导航](https://asoulworld.com/)  
+[一个魂二创](https://asoul.cloud/)  
+部分小图标也来源b站一个魂们的分享  
+嘉然 向晚 模型：[木果阿木果](https://space.bilibili.com/886695)  
+  
+请勿使用该项目涉及的资源进行商业盈利

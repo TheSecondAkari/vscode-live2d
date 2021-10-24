@@ -5,20 +5,25 @@
   "version": "0.1.0",
   "author": "TheSecondAkari",
   "publisher": "TheSecondAkari",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheSecondAkari/vscode-live2d"
+  },
   "engines": {
     "vscode": "^1.47.0"
   },
   "keywords": [
-		"vscode看板娘",
-		"看板娘",
-		"kanbanniang",
-		"live2d",
-		"asoul",
-		"a-soul",
-		"vtuber",
+    "vscode看板娘",
+    "看板娘",
+    "kanbanniang",
+    "live2d",
+    "asoul",
+    "a-soul",
+    "vtuber",
     "国内顶级偶像",
     "虚拟偶像"
-	],
+  ],
   "icon": "logo.png",
   "categories": [
     "Other"
@@ -29,27 +34,27 @@
   "main": "./out/extension.js",
   "contributes": {
     "views": {
-			"explorer": [
-				{
-					"type": "webview",
-					"id": "vscode-live2d.live2dView",
-					"name": "live2d-A-Soul"
-				}
-			]
-		},
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "vscode-live2d.live2dView",
+          "name": "live2d-A-Soul"
+        }
+      ]
+    },
     "configuration": [
-			{
-				"title": "看板娘配置",
-				"type": "Object",
-				"properties": {
-					"vscode-live2d-asoul.enabled": {
-						"type": "boolean",
-						"default": true,
-						"description": "是否启用live2d-asoul"
-					}
-				}
-			}
-		]
+      {
+        "title": "看板娘配置",
+        "type": "Object",
+        "properties": {
+          "vscode-live2d-asoul.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "是否启用live2d-asoul"
+          }
+        }
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
