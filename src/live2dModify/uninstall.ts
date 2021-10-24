@@ -46,6 +46,7 @@ function clearCssContent(content: string): string {
     var re = new RegExp("\\/\\*ext-" + extName + "-start\\*\\/[\\s\\S]*?\\/\\*ext-" + extName + "-end\\*" + "\\/", "g");
     content = content.replace(re, '');
     content = content.replace(/\s*$/, '');
+    content += '\n';
     return content;
 }
 

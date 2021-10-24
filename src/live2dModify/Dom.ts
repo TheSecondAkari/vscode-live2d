@@ -155,6 +155,7 @@ export class Dom {
         var re = new RegExp("\\/\\*ext-" + this.extName + "-start\\*\\/[\\s\\S]*?\\/\\*ext-" + this.extName + "-end\\*" + "\\/", "g");
         content = content.replace(re, '');
         content = content.replace(/\s*$/, '');
+        content += '\n'
         return content;
     }
 
