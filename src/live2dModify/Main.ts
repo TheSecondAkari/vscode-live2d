@@ -5,11 +5,12 @@ import version from './version';
 import { Dom } from './Dom';
 
 export class Main {
-	public static watch(): vscode.Disposable {
+	public static watch(): [vscode.Disposable, Dom] {
 		const base = path.dirname(require.main.filename);
 		const filePath = path.join(base, 'vs', 'code', 'electron-browser', 'workbench', 'workbench.js');
+		const configName = 'vscode-live2d-asoul';
 		const extName = "TheSecondAkari-vscode-live2d";
-		let DomApi = new Dom(extName, filePath, version, extName);
-		return vscode.workspace.onDidChangeConfiguration(() => DomApi.install());
+		let DomApi = new Dom(configName, filePath, version, extName);
+		return [vscode.workspace.onDidChangeConfiguration(() => DomApi.install()), DomApi];
 	}
 }

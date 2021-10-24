@@ -34,10 +34,44 @@ export class Dom {
         let firstload = this.checkFirstload();  // 是否初次加载插件
         let fileType = this.getFileType(); // 文件目前状态
         // 如果是第一次加载插件，或者旧版本
-        if (!firstload || fileType === FileType.isOld || fileType === FileType.empty) {
+        if (firstload || fileType === FileType.isOld) {
+            this.generateResources();
+        }
+    }
+
+    /**
+     * 生成资源文件到特定目录--live2d的内容，增加 js 文件处理代码
+     * 
+     * @public
+     * @param {boolean} [notice] 是否需要结果通知
+     * @returns {void} 
+     */
+    public generateResources(notice?: boolean): void {
+        try {
             const base = path.dirname(require.main.filename);
             copy(path.join(__dirname, '../../res/'), path.join(base, 'vs', 'code', 'electron-browser', 'workbench'));
             this.install(true);
+            notice && vsHelp.showInfo('资源文件配置成功');
+        } catch (e) {
+            notice && vsHelp.showInfo('资源文件配置出错:' + e.toString());
+        }
+    }
+
+    /**
+     * 移除该插件所有依赖 
+     * 
+     * @public
+     * @param {boolean} [notice] 是否需要结果通知
+     * @returns {void} 
+     */
+    public removeResources(notice?: boolean): void {
+        try {
+            const base = path.dirname(require.main.filename);
+            removeFiles(path.join(base, 'vs', 'code', 'electron-browser', 'workbench', 'live2d'));
+            this.uninstall();
+            notice && vsHelp.showInfoRestart('资源文件移除成功');
+        } catch (e) {
+            notice && vsHelp.showInfo('资源文件移除出错:' + e.toString());
         }
     }
 
@@ -59,19 +93,6 @@ export class Dom {
             return;
         }
 
-        // 5.hack 样式
-
-        // 自定义的样式内容
-        let content = getNewContent(config, this.extName, this.version).replace(/\s*$/, ''); // 去除末尾空白
-
-        // 添加代码到文件中，并尝试删除原来已经添加的
-        let newContent = this.getContent();
-        newContent = this.clearJSContent(newContent);
-        newContent += content;
-
-        this.saveContent(newContent);
-        vsHelp.showInfoRestart(this.extName + ' 已更新配置，请重新启动！');
-
         // 之后操作有两种：1.初次加载  2.配置文件改变 
 
         // 2.两次配置均为，未启动插件
@@ -89,28 +110,26 @@ export class Dom {
             return;
         }
 
-        // // 5.hack 样式
+        // 5.hack 样式
 
-        // // 自定义的样式内容
-        // let content = getNewContent(config, this.extName, this.version).replace(/\s*$/, ''); // 去除末尾空白
+        // 自定义的样式内容
+        let content = getNewContent(config, this.extName, this.version).replace(/\s*$/, ''); // 去除末尾空白
 
-        // // 添加代码到文件中，并尝试删除原来已经添加的
-        // let newContent = this.getContent();
-        // newContent = this.clearJSContent(newContent);
-        // newContent += content;
+        // 添加代码到文件中，并尝试删除原来已经添加的
+        let newContent = this.getContent();
+        newContent = this.clearJSContent(newContent);
+        newContent += content;
 
-        // console.log(newContent);
-
-        // this.saveContent(newContent);
-        // vsHelp.showInfoRestart(this.extName + ' 已更新配置，请重新启动！');
+        this.saveContent(newContent);
+        vsHelp.showInfoRestart(this.extName + ' 已更新配置，请重新启动！');
 
     }
 
 
-	/**
-	 * 获取文件内容
-	 * @var mixed
-	 */
+    /**
+     * 获取文件内容
+     * @var mixed
+     */
     private getContent(): string {
         return fs.readFileSync(this.filePath, 'utf-8');
     }
@@ -187,7 +206,6 @@ export class Dom {
      */
     private getFileType(): FileType {
         let jsContent = this.getContent();
-
         // 未 hack 过
         let ifUnInstall: boolean = !~jsContent.indexOf(`ext.${this.extName}.ver`);
 
@@ -196,9 +214,9 @@ export class Dom {
         }
 
         // hack 过的旧版本
-        let ifVerOld: boolean = !~jsContent.indexOf(`/*ext.${this.extName}.ver.${this.version}*/`);
+        let version = jsContent.match(new RegExp(`ext\\.${this.extName}\\.ver\\.(\\d+\\.\\d+\\.\\d+)`));
 
-        if (ifVerOld) {
+        if (version && this.version > version[1]) {
             return FileType.isOld;
         }
 
@@ -230,14 +248,36 @@ function copy(src: string, dst: string) {
     });
 }
 
-function checkDirectory(src: string, dst: string, callback: Function) {
+function checkDirectory(src: string, dst: string, callback?: Function) {
     fs.access(dst, fs.constants.F_OK, (err) => {
         if (err) {
             fs.mkdirSync(dst);
-            callback(src, dst);
+            callback && callback(src, dst);
         }
         else {
-            callback(src, dst);
+            callback && callback(src, dst);
         }
     });
+}
+
+/**
+* 删除文件内容
+* 
+* @private
+* @param {string} path 
+*/
+function removeFiles(path: string) {
+    var files = [];
+    if (fs.existsSync(path)) {
+        files = fs.readdirSync(path);
+        files.forEach(function (file, index) {
+            var curPath = path + "/" + file;
+            if (fs.statSync(curPath).isDirectory()) { // recurse
+                removeFiles(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
 }

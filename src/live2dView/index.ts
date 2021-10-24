@@ -106,27 +106,32 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 					</div>
 
 					<br />
-					<div class="common-title">拓展配置:</div>
-					<div class="common-subtitle">添加音频输出能力:</div>
+					<div class="common-title">补充配置:</div>
+					<div class="common-subtitle">插件依赖文件:</div>
 					<div class="common-bar">
 						<button 
-							title="注意该功能会将vscode目录下的ffmpeg.dll替换为有音频处理能力的文件ffmpeg.dll(来源electron v4.2.7 window 64位)"
+							title="插件依赖文件会在初次安装插件并启动时自动生成，点击该按钮可强制生成覆盖"
 							class="common-button" 
-							onclick="setFfmpeg()">
-							开启
+							onclick="generateResources()">
+							生成
 						</button>
-						<button class="common-button" onclick="restoreFfmpeg()">关闭</button>
+						<button 
+							title="卸载该插件前，请先执行该操作。去除该插件造成的影响"
+							class="common-button" 
+							onclick="removeResources()">
+							移除
+						</button>
 					</div>
 				</div>
 			
 			
 			
 				<script>
-					function setFfmpeg() {
+					function generateResources() {
 
 					}
 
-					function restoreFfmpeg() {
+					function removeResources() {
 
 					}
 

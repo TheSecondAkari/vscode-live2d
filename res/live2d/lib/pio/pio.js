@@ -40,7 +40,7 @@ var Paul_Pio = function (prop) {
         },
         // 随机内容
         rand: function (arr) {
-            return arr[Math.floor(Math.random() * arr.length + 1) - 1];
+            return arr[Math.floor(Math.random() * arr.length)];
         },
         // 播放音频
         audioPlay: function (url) {
@@ -49,7 +49,7 @@ var Paul_Pio = function (prop) {
                 audioInstance.src = url;
                 audioInstance.play().catch((e) => {
                     if (e.toString() == 'NotSupportedError: Failed to load because no supported source was found.')
-                        this.render('vscode默认不支持html音频处理,可从配置面板开启该功能')
+                        this.render('vscode默认不支持html音频处理,如何开启可查看该插件简介')
                 })
             }
         },
@@ -209,7 +209,7 @@ var Paul_Pio = function (prop) {
 
             // 音频测试
             elements.audio.onclick = function () {
-                const text = modules.rand(['嘉心糖屁都没有用', '试图把我激怒']);
+                const text = '嘉心糖屁都没有用';
                 modules.render(text, `./models/Diana/audio/嘉然：${text}.aac`);
             };
             elements.audio.onmouseover = function () {
