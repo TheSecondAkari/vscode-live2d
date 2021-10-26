@@ -215,11 +215,17 @@ export default function (config: any, extName: string, version: string): string 
 				}
 				const disx = e.pageX - container.offsetLeft;//获取鼠标相对元素距离
 				const disy = e.pageY - container.offsetTop;
+				
+				// 防止鼠标移动到iframe上，使得鼠标移动事件丢失
+				const iframe = container.getElementsByTagName('iframe')[0];
+				iframe && (iframe.style.pointerEvents = 'none');
+
 				const handleMove = (event) => {
 					container.style.left = event.pageX - disx + 'px';
 					container.style.top = event.pageY - disy + 'px';
 				};
 				const tempMouseUp = () => {
+					iframe && (iframe.style.pointerEvents = 'inherit');
 					this.resetLocationDependency(container, this.anchor); // 恢复目标定位依赖
 					document.removeEventListener("mousemove", handleMove);
 					document.removeEventListener("mouseup", tempMouseUp);

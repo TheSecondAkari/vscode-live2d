@@ -14,7 +14,7 @@
   - 缩放大小
   - 点击穿透
 - 随机切换背景图
-  - 该功能可与 A-SOUl-background插件功能，本插件的背景图优先级会更高
+  - 该功能可与 A-SOUl-background插件功能配合使用，本插件的背景图优先级会更高
   - 点击切换随机背景图 [图来源](https://asoul.cloud/pic)
   - 保存背景图
   - 加载保存背景图
@@ -102,56 +102,30 @@ _VS Code for Windows 1.31.0 - 1.35.1 不需替换，1.36.0 后无此待遇_
 
 _VS Code for macOS 1.43+ 替换后闪退[解决方案](https://github.com/nondanee/vsc-netease-music/issues/86#issuecomment-786546931)_
 
-<details><summary>
-<b>Manual Replacement</b>
+<details>
+<summary>
+<b>手动替换操作</b>
 </summary>
 
-通过 VS Code 版本在 `https://raw.githubusercontent.com/Microsoft/vscode/%version%/.yarnrc` 查看其使用的 Electron 版本，并于 `https://github.com/electron/electron/releases/tag/%version%` 下载对应的 **Electron 完整版本**进行替换
+    首先需要查看 vscode 版本对应的electron版本， 然后下载对应系统的electron版本的压缩包，将里面的特定文件ffmpeg 解压到vscode的安装目录下，替换原vscode的ffmpeg文件
+
+  [electron下载](https://npm.taobao.org/mirrors/electron/)
 
 #### Windows
-
-下载 **electron-%version%-win32-%arch%.zip**
-
-替换 `./ffmpeg.dll`
-
+    界面左上角 点击 help(帮助) => about(关于)，弹窗可查看electron版本  
+    下载 **electron-%version%-win32-x64.zip**
+    替换 `./ffmpeg.dll` 文件
 #### macOS
-
-下载 **electron-%version%-darwin-x64.zip**
-
-替换 `./Electron.app/Contents/Frameworks/Electron\ Framework.framework/Libraries/libffmpeg.dylib`
-
+    界面左上角 点击 code => about，弹窗可查看electron版本 
+    下载 **electron-%version%-darwin-x64.zip**
+    替换 `./Electron.app/Contents/Frameworks/Electron\ Framework.framework/Libraries/libffmpeg.dylib`
 #### Linux
-
-下载 **electron-%version%-linux-%arch%.zip**
-
-替换 `./libffmpeg.so`
-
-</details>
-
-<details><summary>
-<b>Automatic Replacement</b>
-</summary>
-
-使用 Python 脚本替换 (使用[淘宝 Electron 镜像](https://npm.taobao.org/mirrors/electron/)，兼容 Python 2/3，绝大部分发行版自带环境)
-
-**默认安装位置下 Linux 和 Windows 需要以管理员身份运行，macOS 不需要**
-
-#### Windows Powershell
-
-```powershell
-Invoke-RestMethod https://gist.githubusercontent.com/nondanee/f157bbbccecfe29e48d87273cd02e213/raw | python
-```
-
-#### Unix Shell
-
-```
-curl https://gist.githubusercontent.com/nondanee/f157bbbccecfe29e48d87273cd02e213/raw | python
-```
-
-如果 VS Code 使用默认配置安装，脚本会自动寻找并替换，若自定义了安装位置，请自行修改 [installation](https://gist.github.com/nondanee/f157bbbccecfe29e48d87273cd02e213#file-helper-py-L20)
+    界面左上角 Help(帮助) → \rightarrow →About(关于)
+    下载 **electron-%version%-linux-x64.zip**
+    替换 `./libffmpeg.so`
 
 </details>
-
+  
   
 # 鸣谢
 [vscode-live2d](https://marketplace.visualstudio.com/items?itemName=CharlesZ.vscode-live2d)  
