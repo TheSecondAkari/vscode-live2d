@@ -96,6 +96,8 @@ function onModelLoad(model) {
     }
   }
 
+  window.live2d_playAction = playAction; // 挂载到window上，方便调用
+
   canvas.onclick = function () {
     if (motionManager.state.currentGroup !== "Idle") return
 

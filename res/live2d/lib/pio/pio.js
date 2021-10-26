@@ -54,7 +54,7 @@ var Paul_Pio = function (prop) {
             }
         },
         // 创建对话框方法
-        render: function (text, audio) {
+        render: function (text) {
             if (text.constructor === Array) {
                 dialog.innerHTML = modules.rand(text);
             }
@@ -71,9 +71,6 @@ var Paul_Pio = function (prop) {
             this.t = setTimeout(function () {
                 dialog.classList.remove("active");
             }, 3000);
-
-            // 播放音频
-            audio && this.audioPlay(audio);
         },
         // 是否为移动设备
         isMobile: function () {
@@ -209,8 +206,17 @@ var Paul_Pio = function (prop) {
 
             // 音频测试
             elements.audio.onclick = function () {
-                const text = '嘉心糖屁都没有用';
-                modules.render(text, `./models/Diana/audio/jiaxintang-nouse.aac`);
+                if(current.idol === 0) {
+                    window.live2d_playAction({
+                        text: "嘉心糖屁都用没有",
+                        motion: "Tap生气 -领结"
+                    })
+                    // 播放音频
+                    modules.audioPlay(`./models/Diana/audio/jiaxintang-nouse.aac`);
+                }
+                else {
+                    modules.render('晚晚的语音测试未添加');
+                }
             };
             elements.audio.onmouseover = function () {
                 modules.render("音频测试");
