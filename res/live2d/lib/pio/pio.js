@@ -210,7 +210,7 @@ var Paul_Pio = function (prop) {
             // 音频测试
             elements.audio.onclick = function () {
                 const text = '嘉心糖屁都没有用';
-                modules.render(text, `./models/Diana/audio/嘉然：${text}.aac`);
+                modules.render(text, `./models/Diana/audio/jiaxintang-nouse.aac`);
             };
             elements.audio.onmouseover = function () {
                 modules.render("音频测试");
