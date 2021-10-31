@@ -68,10 +68,10 @@ function 加载圣·嘉然() {
     if (ExtraInfo) {
       const 溜冰场 = ExtraInfo["溜冰场"];
       if (Array.isArray(溜冰场) && 溜冰场.length > 0) {
-        initConfig.link = 溜冰场;
+        initConfig.content.link = 溜冰场;
       }
     }
-
+    
     pio_reference = new Paul_Pio(initConfig)
 
     pio_alignment = "left"

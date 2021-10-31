@@ -3,6 +3,11 @@
 # 简单预览：
 ![](https://s3.bmp.ovh/imgs/2021/10/5a972bb9b3badcd0.png#pic_center)
 
+# 视频演示
+
+  [插件介绍视频](https://www.bilibili.com/video/BV1mR4y1J7XL)  可以的话请给我点一下赞，能转发分享评论就最好了   
+  [我的b站账号](https://space.bilibili.com/5637882)  关注吗？也不是不行，(*^_^*)
+
 # 功能概况：
 
 使用 iframe 嵌入页面中，实现效果。
