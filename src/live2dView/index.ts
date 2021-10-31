@@ -88,7 +88,7 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button class="common-button" onclick="resetPosition()">重置默认位置</button>
 					</div>
 
-					<div class="common-subtitle">背景图:</div>
+					<div class="common-subtitle">背景图:(需要先启动live2d人物)</div>
 					<div class="common-bar">
 						<button class="common-button" onclick="saveBackground()">保存背景图</button>
 						<button class="common-button" onclick="loadBackground()"> 加载背景图</button>

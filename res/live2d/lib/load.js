@@ -1,13 +1,37 @@
+// 通过读取远程配置文件，进行设置默认信息
+function getInitConfig(callback) {
+  fetch(`https://cdn.jsdelivr.net/gh/TheSecondAkari/vscode-live2d@latest/live2dExtraConfig.json`, {
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, same-origin, *omit
+    headers: {
+      "user-agent": "Mozilla/4.0 MDN Example",
+    },
+    method: "GET", // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    redirect: "follow", // manual, *follow, error
+    referrer: "no-referrer" // *client, no-referrer
+  })
+    .then(response => response.json())
+    .then(function (myJson) {
+      callback && callback(myJson)
+    })
+    .catch(e => {
+      callback && callback()
+    });
+}
+
 var 引流 = [
   "https://space.bilibili.com/672328094",
   "https://space.bilibili.com/672346917",
+  "https://space.bilibili.com/672353429",
+  "https://space.bilibili.com/672342685",
+  "https://space.bilibili.com/351609538",
   "https://www.bilibili.com/video/BV1FZ4y1F7HH",
   "https://www.bilibili.com/video/BV1FX4y1g7u8",
   "https://www.bilibili.com/video/BV1aK4y1P7Cg",
   "https://www.bilibili.com/video/BV17A411V7Uh",
   "https://www.bilibili.com/video/BV1AV411v7er",
   "https://www.bilibili.com/video/BV1564y1173Q",
-
   "https://www.bilibili.com/video/BV1MX4y1N75X",
   "https://www.bilibili.com/video/BV17h411U71w",
   "https://www.bilibili.com/video/BV1ry4y1Y71t",
@@ -16,7 +40,7 @@ var 引流 = [
   "https://www.bilibili.com/video/BV1Dp4y1H7iB",
   "https://www.bilibili.com/video/BV1bi4y1P7Eh",
   "https://www.bilibili.com/video/BV1vQ4y1Z7C2",
-  "https://www.bilibili.com/video/BV1oU4y1h7Sc",
+  "https://www.bilibili.com/video/BV1oU4y1h7Sc"
 ]
 
 const initConfig = {
@@ -39,12 +63,22 @@ const initConfig = {
 }
 
 function 加载圣·嘉然() {
-  pio_reference = new Paul_Pio(initConfig)
+  // ExtraInfo 是远程维护的配置信息
+  getInitConfig((ExtraInfo) => {
+    if (ExtraInfo) {
+      const 溜冰场 = ExtraInfo["溜冰场"];
+      if (Array.isArray(溜冰场) && 溜冰场.length > 0) {
+        initConfig.link = 溜冰场;
+      }
+    }
 
-  pio_alignment = "left"
+    pio_reference = new Paul_Pio(initConfig)
 
-  // Then apply style
-  pio_refresh_style()
+    pio_alignment = "left"
+
+    // Then apply style
+    pio_refresh_style()
+  })
 }
 
 function reSizeLive2d() {
