@@ -12,46 +12,47 @@ export default function (config: any, extName: string, version: string): string 
 			// 添加postmessage事件监听
 			const receiveMessage = (event) => {
 				const origin = event.origin || event.originalEvent.origin;
-				if (origin !== "vscode-webview://webviewview-vscode-live2d-live2dview")
+				if (origin !== "vscode-webview://webviewview-vscode-live2d-live2dview" && !origin.startsWith('vscode-webview://'))
 					return;
-				const { type, data } = event.data;
-				switch (type) {
-					case 'live2d-asoul-openAutoLodash':
-						this.saveConfig({ autoLodash: true });
-						break;
-					case 'live2d-asoul-closeAutoLodash':
-						this.saveConfig({ autoLodash: false });
-						break;
-					case 'live2d-asoul-lodash':
-						this.createLive2d();
-						break;
-					case 'live2d-asoul-close':
-						this.deleteLive2d();
-						break;
-					case 'live2d-asoul-setAnchor': 
-						this.anchor = data;
-						break;
-					case 'live2d-asoul-resetPosition':
-						this.resetPosition();
-						break;
-					case 'live2d-asoul-saveCurrentConfig':
-						this.saveCurrentConfig();
-						break;
-					case 'live2d-asoul-saveBackground':
-						this.saveBackground();
-						break;
-					case 'live2d-asoul-loadBackground':
-						this.loadBackground();
-						break;
-					case 'live2d-asoul-openBackgroundSetTime':
-						this.openBackgroundSetTime(data);
-						break;
-					case 'live2d-asoul-closeBackgroundSetTime':
-						this.closeBackgroundSetTime();
-						break;
-					default:
-						break;
-				}
+				const { type, data } = event?.data || {};
+				if(type)
+					switch (type) {
+						case 'live2d-asoul-openAutoLodash':
+							this.saveConfig({ autoLodash: true });
+							break;
+						case 'live2d-asoul-closeAutoLodash':
+							this.saveConfig({ autoLodash: false });
+							break;
+						case 'live2d-asoul-lodash':
+							this.createLive2d();
+							break;
+						case 'live2d-asoul-close':
+							this.deleteLive2d();
+							break;
+						case 'live2d-asoul-setAnchor': 
+							this.anchor = data;
+							break;
+						case 'live2d-asoul-resetPosition':
+							this.resetPosition();
+							break;
+						case 'live2d-asoul-saveCurrentConfig':
+							this.saveCurrentConfig();
+							break;
+						case 'live2d-asoul-saveBackground':
+							this.saveBackground();
+							break;
+						case 'live2d-asoul-loadBackground':
+							this.loadBackground();
+							break;
+						case 'live2d-asoul-openBackgroundSetTime':
+							this.openBackgroundSetTime(data);
+							break;
+						case 'live2d-asoul-closeBackgroundSetTime':
+							this.closeBackgroundSetTime();
+							break;
+						default:
+							break;
+					}
 			}
 			window.addEventListener('message', receiveMessage, false);
 	
