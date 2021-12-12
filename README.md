@@ -29,6 +29,11 @@
 - [一个魂二创](https://asoul.cloud/)入口
 
 # 使用介绍：
+## TIPS: 当人物无法正常启动时，可尝试点击配置文件生成按钮。（vscode版本更新后也需要手动点一下生成按钮）
+<div style="text-align:center" >
+<img src="https://i.bmp.ovh/imgs/2021/12/a4098544dad6e254.png#pic_center"  width="400" align="center">
+</div>
+
 
 ## Warns 警告：
 
