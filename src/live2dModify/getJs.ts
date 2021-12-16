@@ -198,6 +198,7 @@ export default function (config: any, extName: string, version: string): string 
 				let isPenetrate = false;
 				return () => {
 					isPenetrate = !isPenetrate;
+					controlEles.style.opacity = isPenetrate ? '1' : '';
 					container.style.pointerEvents = isPenetrate ? 'none' : 'auto';
 				}
 			})());

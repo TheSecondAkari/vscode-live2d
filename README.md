@@ -34,6 +34,10 @@
 <img src="https://i.bmp.ovh/imgs/2021/12/a4098544dad6e254.png#pic_center"  width="400" align="center">
 </div>
 
+    若依赖文件生成失败：
+    - windows可尝试使用以管理者身份运行vscode，再点击生成按钮
+    - mac 请留意是否将vscode从【下载】移动到【应用程序】里  
+      - mac 可通过【检查vscode是否可以更新】来判断软件是否处于可写的硬盘中  
 
 ## Warns 警告：
 
