@@ -93,17 +93,34 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button class="common-button" onclick="saveBackground()">保存背景图</button>
 						<button class="common-button" onclick="loadBackground()"> 加载背景图</button>
 					</div>
-					<div class="common-subtitle">定时切换(分钟/默认30分钟):</div>
+					<div class="common-subtitle">定时切换(分钟):</div>
 					<div class="common-bar">
-						<input style="width: 30%" type="number" onchange="handleChangeTime(event)" />
+						<input style="width: 30%" placeholder="默认30" type="number" onchange="handleChangeTime(event)" />
 						<button style="width: 30%" onclick="openBackgroundSetTime()"> 开启</button>
 						<button style="width: 30%" onclick="closeBackgroundSetTime()"> 关闭</button>
+					</div>
+					<div class="common-subtitle">背景图配置:(会默认使用最近配置)</div>
+					<div class="common-bar">
+						<div style="margin-right:6px" > 不透明度:  </div>
+						<input id="background-opacity-input" style="width: 80%; flex: 1" type="number" placeholder="范围: 0-1，默认是0.2" onchange="handleChangeOpacity(event)" />
+					</div>
+					<div class="common-bar">
+						<div style="margin-right:6px" > 适配样式:  </div>
+						<select id="background-mode-select" style="width: 80%; flex: 1" onchange="handleChangeMode(event)">
+							<option value='' disabled selected style='display:none;'>背景图适配样式,默认是覆盖</option>  
+							<option value="cover">覆盖</option>
+							<option value="contain">适应</option>
+						</select>
+					</div>
+					<div class="common-bar" style="justify-content: space-round" >
+						<button style="width: 45%" onclick="modifyBackgroundConfig()"> 确认</button>
+						<button style="width: 45%" onclick="restoreBgConfig()"> 恢复默认</button>
 					</div>
 					
 					<br />
 					<div class="common-title">配置信息:</div>
 					<div class="common-subtitle">自启动:</div>
-					<div class="common-bar">
+					<div class="common-bar" >
 						<button class="common-button" onclick="openAutoLodash()">开启</button>
 						<button class="common-button" onclick="closeAutoLodash()">关闭</button>
 					</div>

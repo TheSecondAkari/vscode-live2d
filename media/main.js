@@ -1,4 +1,5 @@
 const vscode = acquireVsCodeApi();
+
 function generateResources() {
     vscode.postMessage({ type: 'generateResources' });
 }
@@ -8,6 +9,8 @@ function removeResources() {
 }
 
 let background_time = 30;
+let background_opacity = 0.2;
+let background_mode = 'cover';
 
 function handleChangeTime(e) {
     const value = Number(e.target.value);
@@ -15,6 +18,37 @@ function handleChangeTime(e) {
         background_time = value;
     }
     else e.target.value = '0.5';
+}
+
+function handleChangeOpacity(e) {
+    let value = e.target.value;
+    value = value === 0 ? 0 : value ? Number(value) : 0.2;
+    if (value >= 0 && value <= 1) {
+        background_opacity = value;
+    }
+}
+
+function handleChangeMode(e) {
+    background_mode = e.target.value;
+}
+
+function setEleBackgroundConfig(input, select) {
+    const eleInput = document.getElementById('background-opacity-input');
+    eleInput && (eleInput.value = input);
+    background_opacity = input === undefined ? 0.2 : input;
+    const eleSelect = document.getElementById('background-mode-select');
+    eleSelect && (eleSelect.value = select || '');
+    background_mode = select ? select : 'cover';
+}
+
+function restoreBgConfig() {
+    setEleBackgroundConfig(undefined, '');
+    modifyBackgroundConfig();
+}
+
+function modifyBackgroundConfig() {
+    const config = { opacity: background_opacity, backgroundSize: background_mode };
+    sendCommand('live2d-asoul-modifyBackgroundConfig', config);
 }
 
 function openBackgroundSetTime() {
@@ -56,3 +90,4 @@ function loadBackground() {
 function sendCommand(type, data) {
     window.top.postMessage({ type, data }, "vscode-file://vscode-app");
 }
+

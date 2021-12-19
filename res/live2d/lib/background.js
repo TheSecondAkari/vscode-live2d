@@ -4,6 +4,8 @@ const typeList = [1, 2, 3, 4, 1, 2, 4, 1, 4]; // sort 参数的随机  1是浏�
 const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 let currentImgs = undefined;
 const IMGKEY = 'live2d-asoul-background';
+const BgConfKey = 'live2d-asoul-background-config';
+let backgroundConfig = JSON.parse(localStorage.getItem(BgConfKey) || '{}');
 
 const getRandom = (arr) => arr[Math.floor((Math.random() * arr.length))];
 
@@ -34,6 +36,7 @@ function removeBackgroundStyle() {
 }
 
 function getBackgroundStyleText(mainImgs, siderImgs) {
+    const { opacity = 0.2, backgroundSize = 'cover' } = backgroundConfig;
     const commonStyle = `
     content: '';
     pointer-events: none;
@@ -45,8 +48,8 @@ function getBackgroundStyleText(mainImgs, siderImgs) {
     height: 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0.2;
+    background-size: ${backgroundSize};
+    opacity:${opacity};
     `;
 
     const styleContent = `
@@ -204,4 +207,14 @@ function closeBackgroundSetTime() {
     }
 }
 
-// 
+// 修改背景图样式配置： 不透明度、适配模式
+function modifyBackgroundConfig(config) {
+    backgroundConfig = config;
+    localStorage.setItem(BgConfKey, JSON.stringify(config));
+    if (currentImgs?.length) {
+        const sidebar = currentImgs.slice(0, 5);
+        const coding = currentImgs.slice(5, 10);
+        const css = getBackgroundStyleText(sidebar, coding);
+        addBackgroundStyle(css);
+    }
+}

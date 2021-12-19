@@ -50,6 +50,9 @@ export default function (config: any, extName: string, version: string): string 
 						case 'live2d-asoul-closeBackgroundSetTime':
 							this.closeBackgroundSetTime();
 							break;
+						case 'live2d-asoul-modifyBackgroundConfig':
+							this.modifyBackgroundConfig(data);
+							break;
 						default:
 							break;
 					}
@@ -414,27 +417,28 @@ export default function (config: any, extName: string, version: string): string 
 		}
 
 		saveBackground = () => {
-			const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
-			if (innerWindow && innerWindow.saveBackground)
-				innerWindow.saveBackground();
+			const fn = this.live2dIframe?.contentWindow?.saveBackground;
+			fn && fn();
 		}
 	
 		loadBackground = () => {
-			const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
-			if (innerWindow && innerWindow.loadBackground)
-				innerWindow.loadBackground();
+			const fn = this.live2dIframe?.contentWindow?.loadBackground;
+			fn && fn();
 		}
 
 		openBackgroundSetTime = (time) => {
-			const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
-			if (innerWindow && innerWindow.loadBackground)
-				innerWindow.openBackgroundSetTime(time);
+			const fn = this.live2dIframe?.contentWindow?.openBackgroundSetTime;
+			fn && fn(time);
 		}
 	
 		closeBackgroundSetTime = () => {
-			const innerWindow = this.live2dIframe && this.live2dIframe.contentWindow;
-			if (innerWindow && innerWindow.loadBackground)
-				innerWindow.closeBackgroundSetTime();
+			const fn = this.live2dIframe?.contentWindow?.closeBackgroundSetTime;
+			fn && fn();
+		}
+
+		modifyBackgroundConfig = (config) => {
+			const fn = this.live2dIframe?.contentWindow?.modifyBackgroundConfig;
+			fn && fn(config);
 		}
 	}
 
