@@ -71,7 +71,7 @@ function 加载圣·嘉然() {
         initConfig.content.link = 溜冰场;
       }
     }
-    
+
     pio_reference = new Paul_Pio(initConfig)
 
     pio_alignment = "left"
@@ -97,17 +97,10 @@ function onModelLoad(model) {
   const modelNmae = model.internalModel.settings.name
   const coreModel = model.internalModel.coreModel
   const motionManager = model.internalModel.motionManager
-
-  let touchList = [
-    {
-      text: "点击展示文本1",
-      motion: "Idle"
-    },
-    {
-      text: "点击展示文本2",
-      motion: "Idle"
-    }
-  ]
+  const motions = model.internalModel.settings?.motions || {};
+  let touchList = Object.keys(motions).map(
+    (key) => ({ motion: key, text: motions[key]?.text })
+  );
 
   function playAction(action) {
     action.text && pio_reference.modules.render(action.text)
@@ -269,3 +262,7 @@ function onModelLoad(model) {
 
 var pio_reference
 window.onload = 加载圣·嘉然
+
+window.loadOtherModel = function (modelPath) {
+  modelPath && loadlive2d('pio', modelPath, onModelLoad);
+}

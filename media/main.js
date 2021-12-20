@@ -8,9 +8,14 @@ function removeResources() {
     vscode.postMessage({ type: 'removeResources' });
 }
 
+function openLocalModelsDir() {
+    vscode.postMessage({ type: 'openLocalModelsDir' });
+}
+
 let background_time = 30;
 let background_opacity = 0.2;
 let background_mode = 'cover';
+let otherModelPath = '';
 
 function handleChangeTime(e) {
     const value = Number(e.target.value);
@@ -32,6 +37,15 @@ function handleChangeMode(e) {
     background_mode = e.target.value;
 }
 
+function handleChangeModelPath(e) {
+    otherModelPath = e.target.value;
+}
+
+function handleChangeDefaultOnline(e) {
+    const path = e.target.value;
+    sendCommand('live2d-asoul-loadOtherModel', path);
+}
+
 function setEleBackgroundConfig(input, select) {
     const eleInput = document.getElementById('background-opacity-input');
     eleInput && (eleInput.value = input);
@@ -44,6 +58,13 @@ function setEleBackgroundConfig(input, select) {
 function restoreBgConfig() {
     setEleBackgroundConfig(undefined, '');
     modifyBackgroundConfig();
+}
+
+function loadOtherModel() {
+    if (otherModelPath) {
+        const targetPath = otherModelPath.startsWith('http') ? otherModelPath : '../../../../../live2d-models/' + otherModelPath;
+        sendCommand('live2d-asoul-loadOtherModel', targetPath);
+    }
 }
 
 function modifyBackgroundConfig() {
