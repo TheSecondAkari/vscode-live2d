@@ -1,9 +1,5 @@
 import * as vscode from 'vscode';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
 import { Main } from '../live2dModify/Main';
-const { exec } = require('child_process');
 
 export function activateLive2d(context: vscode.ExtensionContext) {
 
@@ -11,27 +7,6 @@ export function activateLive2d(context: vscode.ExtensionContext) {
 
 	context.subscriptions.push(
 		vscode.window.registerWebviewViewProvider(Live2dViewProvider.viewType, provider));
-}
-
-function checkDirectory(dst: string, callback?: Function) {
-	fs.access(dst, fs.constants.F_OK, (err) => {
-		if (err) {
-			fs.mkdirSync(dst);
-			callback && callback();
-		}
-		else {
-			callback && callback();
-		}
-	});
-}
-
-function openLocalModelsDir() {
-	const base = path.dirname(require.main.filename);
-	const localModelsPath = path.join(base, 'live2d-models');
-	const osType = os.type();
-	const cmd = osType === 'Darwin' ? 'open' : osType === 'Windows_NT' ? 'explorer' : '';
-	if (cmd)
-		checkDirectory(localModelsPath, () => exec(`${cmd} ${localModelsPath}`));
 }
 
 class Live2dViewProvider implements vscode.WebviewViewProvider {
@@ -70,9 +45,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 				case 'removeResources':
 					Main.Instance &&
 						Main.Instance.removeResources(true);
-					break;
-				case 'openLocalModelsDir':
-					openLocalModelsDir();
 					break;
 			}
 		});
@@ -181,33 +153,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 							移除
 						</button>
 					</div>
-
-					<br />
-					<div class="common-title">测试配置(未完善):</div>
-					<div class="common-subtitle">加载其他模型支持两种方式:</div>
-					<div class="common-subtitle">1.网络资源https开头资源(需联网);</div>
-					<div class="common-subtitle">2.本地路径，需要先将模型相关文件移动到目标文件夹，然后以该文件夹为起始填写相对路径</div>
-					<div class="common-subtitle">3.本地路径，暂时仅支持mac， windows</div>
-					<div class="common-subtitle">tips.点击模型右侧的模型切换按钮即可恢复默认模型</div>
-					<div class="common-bar">
-						在线模型：
-						<select style="width: 80%; flex: 1" onchange="handleChangeDefaultOnline(event)">
-							<option value=''  disabled selected style='display:none;' >选择即生效，当前关闭</option>
-							<option value="https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Pio/index.json">Pio</option>
-							<option value="https://cdn.jsdelivr.net/gh/fghrsh/live2d_api/model/Potion-Maker/Tia/index.json">Tia</option>
-						</select>
-					</div>
-					<div class="common-bar">
-						<input style="width: 100%" placeholder="本地相对路径(例如 yayi/model.json)  /  https在线资源" onchange="handleChangeModelPath(event)" />
-					</div>
-					<div class="common-bar">
-						<button  class="common-button"  onclick="openLocalModelsDir()">
-							本地模型存储文件夹
-						</button>
-						<button class="common-button" onclick="loadOtherModel()">
-							加载
-						</button>
-					</div>
 				</div>
 			
 				<script nonce="${nonce}" src="${scriptUri}"></script>
@@ -224,3 +169,5 @@ function getNonce() {
 	}
 	return text;
 }
+
+// <script nonce="${nonce}" src="${scriptUri}"></script>

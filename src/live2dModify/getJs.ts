@@ -53,9 +53,6 @@ export default function (config: any, extName: string, version: string): string 
 						case 'live2d-asoul-modifyBackgroundConfig':
 							this.modifyBackgroundConfig(data);
 							break;
-						case 'live2d-asoul-loadOtherModel':
-							this.loadOtherModel(data);
-							break;
 						default:
 							break;
 					}
@@ -442,11 +439,6 @@ export default function (config: any, extName: string, version: string): string 
 		modifyBackgroundConfig = (config) => {
 			const fn = this.live2dIframe?.contentWindow?.modifyBackgroundConfig;
 			fn && fn(config);
-		}
-
-		loadOtherModel = (path) => {
-			const fn = this.live2dIframe?.contentWindow?.loadOtherModel;
-			fn && fn(path);
 		}
 	}
 
