@@ -56,3 +56,14 @@ body {
     width: 45%;
     margin-bottom: 6px;
 }
+
+/* 下载图片样式 */
+.download-img {
+    width: 19%;
+    cursor: pointer;
+}
+
+.download-img:hover {
+    width: 20%;
+    border: solid 1px white;
+}

@@ -53,6 +53,9 @@ export default function (config: any, extName: string, version: string): string 
 						case 'live2d-asoul-modifyBackgroundConfig':
 							this.modifyBackgroundConfig(data);
 							break;
+						case 'live2d-asoul-downloadBackground':
+							event.source.postMessage({type: 'live2d-asoul-initDownloadBackground', data: this.live2dIframe?.contentWindow?.currentImgs }, origin);
+							break;
 						default:
 							break;
 					}

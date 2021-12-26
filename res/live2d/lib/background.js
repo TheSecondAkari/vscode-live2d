@@ -2,7 +2,7 @@
 let backgroundCssNode;
 const typeList = [1, 2, 3, 4, 1, 2, 4, 1, 4]; // sort 参数的随机  1是浏览量，2是分享数，3是新发布，4是热门
 const pageList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-let currentImgs = undefined;
+var currentImgs = undefined;
 const IMGKEY = 'live2d-asoul-background';
 const BgConfKey = 'live2d-asoul-background-config';
 let backgroundConfig = JSON.parse(localStorage.getItem(BgConfKey) || '{}');
@@ -146,19 +146,23 @@ function getAsoulImgs(callback) {
         .then(response => response.json())
         .then(function (myJson) {
             if (Array.isArray(myJson) && myJson.length > 0) {
-                const imgs = myJson.map(item => getRandom(item.pic_url).img_src);
-                callback && callback(getRandomArray(imgs, 10));
+                const imgs = myJson.map(item => ({ author: item.name || 'none', img: getRandom(item.pic_url).img_src }));
+                const targets = getRandomArray(imgs, 10);
+                callback && callback(targets);
             }
         });
 }
 
 // 切换背景的具体操作
-function changeAction(imgs) {
-    const sidebar = imgs.slice(0, 5);
-    const coding = imgs.slice(5, 10);
-    currentImgs = [...sidebar, ...coding];
-    const css = getBackgroundStyleText(sidebar, coding);
-    addBackgroundStyle(css);
+function changeAction(targets) {
+    if (targets) {
+        const imgs = targets.map(i => i.img);
+        const sidebar = imgs.slice(0, 5);
+        const coding = imgs.slice(5, 10);
+        currentImgs = targets;
+        const css = getBackgroundStyleText(sidebar, coding);
+        addBackgroundStyle(css);
+    }
 }
 
 // 设置背景图，从接口获取，随机设置
@@ -180,7 +184,7 @@ function loadBackground() {
     const str = localStorage.getItem(IMGKEY);
     if (str) {
         const imgs = JSON.parse(str);
-        changeAction(imgs);
+        changeAction(typeof imgs[0] === 'string' ? imgs.map(img => ({ img })) : imgs);
     }
 }
 

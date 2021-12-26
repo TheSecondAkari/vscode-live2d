@@ -186,7 +186,7 @@ var Paul_Pio = function (prop) {
 
             // 溜冰场
             elements.skate.onclick = function () {
-                const link = prop.content.link;
+                const link = window.溜冰场 || prop.content.link;
                 if (link) {
                     if (Array.isArray(link))
                         window.open(modules.rand(link))

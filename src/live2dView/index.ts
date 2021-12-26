@@ -153,6 +153,15 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 							移除
 						</button>
 					</div>
+
+					<br />
+					<div class="common-title">测试功能:</div>
+					<div class="common-subtitle">下载当前背景图(勿短时间内多次点击):</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="downloadBackground()">获取当前背景</button>
+						<button class="common-button" onclick="removeDownloadBackground()">移除下载展示</button>
+					</div>
+					<div id="currentBackground" class="common-bar"></div>
 				</div>
 			
 				<script nonce="${nonce}" src="${scriptUri}"></script>
