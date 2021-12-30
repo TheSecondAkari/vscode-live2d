@@ -216,9 +216,6 @@ function modifyBackgroundConfig(config) {
     backgroundConfig = config;
     localStorage.setItem(BgConfKey, JSON.stringify(config));
     if (currentImgs?.length) {
-        const sidebar = currentImgs.slice(0, 5);
-        const coding = currentImgs.slice(5, 10);
-        const css = getBackgroundStyleText(sidebar, coding);
-        addBackgroundStyle(css);
+        changeAction(currentImgs)
     }
 }
