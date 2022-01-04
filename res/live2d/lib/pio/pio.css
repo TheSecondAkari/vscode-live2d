@@ -112,7 +112,7 @@
 }
 
 .pio-action .pio-skate {
-    background-image: url("https://s3.bmp.ovh/imgs/2021/10/8fe2e1ed6e9b6f86.png");
+    background-image: url("../../assets/skate.png");
 }
 
 .pio-action .pio-info {
@@ -120,28 +120,28 @@
 }
 
 .pio-action .pio-ava {
-    background-image: url('https://s3.bmp.ovh/imgs/2021/10/b3857449506b3a90.png');
+    background-image: url('../../assets/Ava.png');
 }
 
 .pio-action .pio-diana {
-    background-image: url('https://s3.bmp.ovh/imgs/2021/10/c3191864faca0295.png');
+    background-image: url('../../assets/Diana.png');
 }
 
 .pio-action .pio-eileen {
-    background-image: url('https://s3.bmp.ovh/imgs/2021/10/164b2c1070a7b24b.png');
+    background-image: url('../../assets/Eileen.png');
 }
 
 /* 背景图图标是和eileen是一样的 */
 .pio-action .pio-background {
-    background-image: url('https://s3.bmp.ovh/imgs/2021/10/164b2c1070a7b24b.png');
+    background-image: url('../../assets/Eileen.png');
 }
 
 .pio-action .pio-asoulfans {
-    background-image: url('https://s3.bmp.ovh/imgs/2021/10/8cf5954bf9a6230b.png');
+    background-image: url('../../assets/au.png');
 }
 
 .normal-cycle {
-    animation:cycle 1s linear infinite; 
+    animation: cycle 1s linear infinite;
 }
 
 @keyframes cycle {

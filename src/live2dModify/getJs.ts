@@ -177,7 +177,7 @@ export default function (config: any, extName: string, version: string): string 
 			const borderIconDiv = document.createElement('div');
 			borderIconDiv.title = '调整大小';
 			const borderIcon = document.createElement('img');
-			borderIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/c87f9f3d038d2598.png';
+			borderIcon.src = './live2d/assets/border.png';
 			borderIcon.classList.add("live2d-wrapper-controller-icon");
 			borderIcon.addEventListener('click', (() => {
 				let hasBorder = false;
@@ -198,7 +198,7 @@ export default function (config: any, extName: string, version: string): string 
 			penetrateIconDiv.title = '是否允许点击穿透';
 			penetrateIconDiv.style.cssText = 'margin: 0 6px;';
 			const penetrateIcon = document.createElement('img');
-			penetrateIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/aa5c35f26d1541b8.png';
+			penetrateIcon.src = './live2d/assets/pierce.png';
 			penetrateIcon.classList.add("live2d-wrapper-controller-icon");
 			penetrateIcon.addEventListener('click', (() => {
 				let isPenetrate = false;
@@ -214,7 +214,7 @@ export default function (config: any, extName: string, version: string): string 
 			const dragIconDiv = document.createElement('div');
 			dragIconDiv.title = '鼠标按住拖拽移动';
 			const dragIcon = document.createElement('img');
-			dragIcon.src = 'https://s3.bmp.ovh/imgs/2021/10/9e34525e8e70acd8.png';
+			dragIcon.src = './live2d/assets/pin.png';
 			dragIcon.classList.add("live2d-wrapper-controller-icon");
 			document.addEventListener("mousedown", e => {
 				// 这里过滤掉非目标元素
