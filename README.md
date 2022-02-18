@@ -146,6 +146,8 @@ _VS Code for macOS 1.43+ 替换后闪退[解决方案](https://github.com/nondan
   
   
 # 鸣谢
+[live2d-widget](https://github.com/stevenjoezhang/live2d-widget)  
+[vscode-background](https://github.com/shalldie/vscode-background)  
 [vscode-live2d](https://marketplace.visualstudio.com/items?itemName=CharlesZ.vscode-live2d)  
 [pixi-live2d-display](https://github.com/guansss/pixi-live2d-display)  
 [pio](https://paugram.com/)  
