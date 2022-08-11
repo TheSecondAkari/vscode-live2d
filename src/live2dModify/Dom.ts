@@ -49,7 +49,7 @@ export class Dom {
     public generateResources(notice?: boolean): void {
         try {
             const base = path.dirname(require.main.filename);
-            copy(path.join(__dirname, '../../res/'), path.join(base, 'vs', 'code', 'electron-browser', 'workbench'));
+            copy(path.join(__dirname, '../../res/'), path.join(base, 'vs', 'code', 'electron-sandbox', 'workbench'));
             this.install(true);
             notice && vsHelp.showInfo('资源文件配置成功');
         } catch (e) {
@@ -67,7 +67,7 @@ export class Dom {
     public removeResources(notice?: boolean): void {
         try {
             const base = path.dirname(require.main.filename);
-            removeFiles(path.join(base, 'vs', 'code', 'electron-browser', 'workbench', 'live2d'));
+            removeFiles(path.join(base, 'vs', 'code', 'electron-sandbox', 'workbench', 'live2d'));
             this.uninstall();
             notice && vsHelp.showInfoRestart('资源文件移除成功');
         } catch (e) {

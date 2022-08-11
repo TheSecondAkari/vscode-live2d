@@ -2,7 +2,7 @@
   "name": "vscode-live2d",
   "displayName": "A-SOUL-live2d",
   "description": "vscode插件-live2d看板娘。 默认角色会设置为asoul的嘉然",
-  "version": "0.1.12",
+  "version": "1.0.0",
   "author": "TheSecondAkari",
   "publisher": "TheSecondAkari",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "url": "https://github.com/TheSecondAkari/vscode-live2d"
   },
   "engines": {
-    "vscode": "^1.47.0"
+    "vscode": "^1.70.0"
   },
   "keywords": [
     "vscode看板娘",
