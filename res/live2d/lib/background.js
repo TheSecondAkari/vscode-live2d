@@ -131,7 +131,7 @@ const addSidebarImagesCss = function (images, commonStyle, loop) {
 };
 
 function getAsoulImgs(callback) {
-    fetch(`https://api.asoul.cloud:8000/getPic?page=${getRandom(pageList)}&tag_id=0&sort=${getRandom(typeList)}&part=0&rank=0&ctime=0&type=1`, {
+    fetch(`https://api.asoulfanart.com:9000/getPic?page=${getRandom(pageList)}&tag_id=0&sort=${getRandom(typeList)}&part=0&rank=0&ctime=0&type=1`, {
         cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
         credentials: "same-origin", // include, same-origin, *omit
         headers: {

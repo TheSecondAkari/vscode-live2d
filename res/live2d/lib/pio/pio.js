@@ -154,7 +154,7 @@ var Paul_Pio = function (prop) {
         buttons: function () {
             // asoulworld网站
             elements.home.onclick = function () {
-                window.open('https://asoulworld.com/')
+                window.open('https://studio.asf.ink/');
             };
             elements.home.onmouseover = function () {
                 modules.render(prop.content.home || "想查看更多A-Soul的信息吗？");
@@ -206,7 +206,7 @@ var Paul_Pio = function (prop) {
 
             // 音频测试
             elements.audio.onclick = function () {
-                if(current.idol === 0) {
+                if (current.idol === 0) {
                     window.live2d_playAction({
                         text: "嘉心糖屁都用没有",
                         motion: "Tap生气 -领结"
@@ -225,7 +225,7 @@ var Paul_Pio = function (prop) {
 
             // 一个魂们的二创
             elements.fans.onclick = function () {
-                window.open("https://asoul.cloud/");
+                window.open("https://asoulfanart.com/pic");
             };
             elements.fans.onmouseover = function () {
                 modules.render("想看更多一个魂们的二创吗？");

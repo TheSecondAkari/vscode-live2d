@@ -104,15 +104,15 @@
 }
 
 .pio-action .pio-home {
-    background-image: url("https://asoul.cloud/img/asf.ico");
+    background-image: url("../../assets/yigehun.png");
 }
 
 .pio-action .pio-skin {
-    background-image: url("https://asoul.cloud/img/jwf.jpg");
+    background-image: url("../../assets/chong.jpg");
 }
 
 .pio-action .pio-skate {
-    background-image: url("../../assets/skate.png");
+    background-image: url("../../assets/jellyfish.png");
 }
 
 .pio-action .pio-info {
@@ -124,20 +124,20 @@
 }
 
 .pio-action .pio-diana {
-    background-image: url('../../assets/Diana.png');
+    background-image: url('../../assets/jiaxintang.png');
 }
 
 .pio-action .pio-eileen {
-    background-image: url('../../assets/Eileen.png');
+    background-image: url('../../assets/naiqilin.png');
 }
 
 /* 背景图图标是和eileen是一样的 */
 .pio-action .pio-background {
-    background-image: url('../../assets/Eileen.png');
+    background-image: url('../../assets/naiqilin.png');
 }
 
 .pio-action .pio-asoulfans {
-    background-image: url('../../assets/au.png');
+    background-image: url('../../assets/beijixing.png');
 }
 
 .normal-cycle {
