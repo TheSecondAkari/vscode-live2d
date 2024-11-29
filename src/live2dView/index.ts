@@ -1,69 +1,69 @@
-import * as vscode from 'vscode';
-import { Main } from '../live2dModify/Main';
+import * as vscode from "vscode";
+import { Main } from "../live2dModify/Main";
 
 export function activateLive2d(context: vscode.ExtensionContext) {
+  const provider = new Live2dViewProvider(context.extensionUri);
 
-	const provider = new Live2dViewProvider(context.extensionUri);
-
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(Live2dViewProvider.viewType, provider));
+  context.subscriptions.push(
+    vscode.window.registerWebviewViewProvider(
+      Live2dViewProvider.viewType,
+      provider
+    )
+  );
 }
 
 class Live2dViewProvider implements vscode.WebviewViewProvider {
+  public static readonly viewType = "vscode-live2d.live2dView";
 
-	public static readonly viewType = 'vscode-live2d.live2dView';
+  private _view?: vscode.WebviewView;
 
-	private _view?: vscode.WebviewView;
+  constructor(private readonly _extensionUri: vscode.Uri) {}
 
-	constructor(
-		private readonly _extensionUri: vscode.Uri,
-	) { }
+  public resolveWebviewView(
+    webviewView: vscode.WebviewView,
+    context: vscode.WebviewViewResolveContext,
+    _token: vscode.CancellationToken
+  ) {
+    this._view = webviewView;
 
-	public resolveWebviewView(
-		webviewView: vscode.WebviewView,
-		context: vscode.WebviewViewResolveContext,
-		_token: vscode.CancellationToken,
-	) {
-		this._view = webviewView;
+    webviewView.webview.options = {
+      // Allow scripts in the webview
+      enableScripts: true,
+      localResourceRoots: [this._extensionUri],
+    };
 
-		webviewView.webview.options = {
-			// Allow scripts in the webview
-			enableScripts: true,
-			localResourceRoots: [
-				this._extensionUri
-			]
-		};
+    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
-		webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+    webviewView.webview.onDidReceiveMessage((data) => {
+      switch (data.type) {
+        case "generateResources":
+          Main.Instance && Main.Instance.generateResources();
+          break;
+        case "removeResources":
+          Main.Instance && Main.Instance.removeResources(true);
+          break;
+      }
+    });
+  }
 
-		webviewView.webview.onDidReceiveMessage(data => {
-			switch (data.type) {
-				case 'generateResources':
-					Main.Instance &&
-						Main.Instance.generateResources();
-					break;
-				case 'removeResources':
-					Main.Instance &&
-						Main.Instance.removeResources(true);
-					break;
-			}
-		});
-	}
+  private _getHtmlForWebview(webview: vscode.Webview) {
+    // Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
+    const scriptUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "main.js")
+    );
 
-	private _getHtmlForWebview(webview: vscode.Webview) {
+    // Do the same for the stylesheet.
+    const styleVSCodeUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
+    );
+    const styleMainUri = webview.asWebviewUri(
+      vscode.Uri.joinPath(this._extensionUri, "media", "main.css")
+    );
 
+    // Use a nonce to only allow a specific script to be run.
+    const nonce = getNonce();
 
-		// Get the local path to main script run in the webview, then convert it to a uri we can use in the webview.
-		const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.js'));
-
-		// Do the same for the stylesheet.
-		const styleVSCodeUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'vscode.css'));
-		const styleMainUri = webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'media', 'main.css'));
-
-		// Use a nonce to only allow a specific script to be run.
-		const nonce = getNonce();
-
-		return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 			<html lang="en">
 			<head>
 				<meta charset="UTF-8">
@@ -88,6 +88,42 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button class="common-button" onclick="resetPosition()">重置默认位置</button>
 					</div>
 
+					<br />
+					<div class="common-title">配置信息:</div>
+					<div class="common-subtitle">自启动:</div>
+					<div class="common-bar" >
+						<button class="common-button" onclick="openAutoLodash()">开启</button>
+						<button class="common-button" onclick="closeAutoLodash()">关闭</button>
+					</div>
+					<!-- <div style="display: flex;" >
+						<div class="common-subtitle">定位依赖:</div>
+						<span style="font-style: 12px;font-weight: 400;">(初始默认为右下角)</span>
+					</div> -->
+					<div class="common-subtitle">定位依赖:</div>
+					<div class="common-bar">
+						<button class="common-button" onclick="setAnchor('tl')">左上角</button>
+						<button class="common-button" onclick="setAnchor('tr')">右上角</button>
+						<button class="common-button" onclick="setAnchor('bl')">左下角</button>
+						<button class="common-button" onclick="setAnchor('br')">右下角</button>
+					</div>
+					<div class="common-subtitle">插件依赖文件:</div>
+					<div class="common-bar">
+						<button 
+							title="插件依赖文件会在初次安装插件并启动时自动生成，点击该按钮可强制生成覆盖"
+							class="common-button" 
+							onclick="generateResources()">
+							生成
+						</button>
+						<button 
+							title="卸载该插件前，请先执行该操作。去除该插件造成的影响"
+							class="common-button" 
+							onclick="removeResources()">
+							移除
+						</button>
+					</div>
+
+					<div class="common-title">背景图相关功能失效</div>
+					<div class="common-subtitle">因为获取图片的接口没了</div>
 					<div class="common-subtitle">背景图:(需要先启动live2d人物)</div>
 					<div class="common-bar">
 						<button class="common-button" onclick="saveBackground()">保存背景图</button>
@@ -116,43 +152,6 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 						<button style="width: 45%" onclick="modifyBackgroundConfig()"> 确认</button>
 						<button style="width: 45%" onclick="restoreBgConfig()"> 恢复默认</button>
 					</div>
-					
-					<br />
-					<div class="common-title">配置信息:</div>
-					<div class="common-subtitle">自启动:</div>
-					<div class="common-bar" >
-						<button class="common-button" onclick="openAutoLodash()">开启</button>
-						<button class="common-button" onclick="closeAutoLodash()">关闭</button>
-					</div>
-					<!-- <div style="display: flex;" >
-						<div class="common-subtitle">定位依赖:</div>
-						<span style="font-style: 12px;font-weight: 400;">(初始默认为右下角)</span>
-					</div> -->
-					<div class="common-subtitle">定位依赖:</div>
-					<div class="common-bar">
-						<button class="common-button" onclick="setAnchor('tl')">左上角</button>
-						<button class="common-button" onclick="setAnchor('tr')">右上角</button>
-						<button class="common-button" onclick="setAnchor('bl')">左下角</button>
-						<button class="common-button" onclick="setAnchor('br')">右下角</button>
-					</div>
-
-					<br />
-					<div class="common-title">补充配置:</div>
-					<div class="common-subtitle">插件依赖文件:</div>
-					<div class="common-bar">
-						<button 
-							title="插件依赖文件会在初次安装插件并启动时自动生成，点击该按钮可强制生成覆盖"
-							class="common-button" 
-							onclick="generateResources()">
-							生成
-						</button>
-						<button 
-							title="卸载该插件前，请先执行该操作。去除该插件造成的影响"
-							class="common-button" 
-							onclick="removeResources()">
-							移除
-						</button>
-					</div>
 
 					<br />
 					<div class="common-title">测试功能:</div>
@@ -167,16 +166,17 @@ class Live2dViewProvider implements vscode.WebviewViewProvider {
 				<script nonce="${nonce}" src="${scriptUri}"></script>
 			</body>
 			</html>`;
-	}
+  }
 }
 
 function getNonce() {
-	let text = '';
-	const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	for (let i = 0; i < 32; i++) {
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
-	}
-	return text;
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 32; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
 }
 
 // <script nonce="${nonce}" src="${scriptUri}"></script>
