@@ -1,5 +1,12 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import {
+	Uri,
+	window,
+	InputBoxOptions,
+	commands,
+	env,
+  } from 'vscode';
 
 const base = process.cwd();
 // 文件路径
@@ -14,10 +21,10 @@ main();
 function main() {
     try {
         let content = getContent();
-        const base = path.dirname(require.main.filename);
+        const base = env.appRoot;
         content = clearCssContent(content);
         saveContent(content);
-        removeFiles(path.join(base, 'vs', 'code', 'electron-sandbox', 'workbench', 'live2d'));
+        removeFiles(path.join(base,'out', 'vs', 'code', 'electron-sandbox', 'workbench', 'live2d'));
         return true;
     }
     catch (ex) {
